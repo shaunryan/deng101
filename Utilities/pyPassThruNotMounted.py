@@ -31,7 +31,8 @@ def connect_storage():
 
 # COMMAND ----------
 
-spark.conf.get()
+from pprint import pprint
+
 
 # COMMAND ----------
 
@@ -57,3 +58,15 @@ config.help()
 # COMMAND ----------
 
 display(dbutils.fs.ls(f"{get_storage_account()}/raw/contoso/retaildw/data/2007/01/01"))
+
+# COMMAND ----------
+
+dbutils.fs.unmount("/mnt/test")
+
+# COMMAND ----------
+
+display(dbutils.fs.ls("/mnt/test"))
+
+# COMMAND ----------
+
+dbutils.fs.ls("abfss://datalake@datalakegeneva.dfs.core.windows.net")
