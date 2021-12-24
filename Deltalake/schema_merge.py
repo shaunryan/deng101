@@ -41,31 +41,30 @@ dbutils.fs.rm("/delta/mergeschema", True)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC from pyspark.sql import Row
-# MAGIC from pyspark.sql.types import StructField, StructType, StringType, LongType
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("some", StringType(), True),
-# MAGIC   StructField("col", StringType(), True),
-# MAGIC   StructField("names", LongType(), False)
-# MAGIC ])
-# MAGIC 
-# MAGIC rows = [Row("One", "A", 1), 
-# MAGIC           Row("Two", "B", 2), 
-# MAGIC           Row("Three", "C", 3)]
-# MAGIC 
-# MAGIC src_df = spark.createDataFrame(rows, schema)
-# MAGIC 
-# MAGIC (src_df.write
-# MAGIC   .format("delta")
-# MAGIC   .option("mergeSchema", "true")
-# MAGIC   .mode("append")
-# MAGIC   .saveAsTable("default.TestSchemaMerge"))
-# MAGIC #   .save("/delta/mergeschema/"))
-# MAGIC 
-# MAGIC chk_df = spark.read.format("delta").load("/delta/mergeschema/")
-# MAGIC display(chk_df)
+from pyspark.sql import Row
+from pyspark.sql.types import StructField, StructType, StringType, LongType
+
+schema = StructType([
+  StructField("some", StringType(), True),
+  StructField("col", StringType(), True),
+  StructField("names", LongType(), False)
+])
+
+rows = [Row("One", "A", 1), 
+          Row("Two", "B", 2), 
+          Row("Three", "C", 3)]
+
+src_df = spark.createDataFrame(rows, schema)
+
+(src_df.write
+  .format("delta")
+  .option("mergeSchema", "true")
+  .mode("append")
+  .saveAsTable("default.TestSchemaMerge"))
+#   .save("/delta/mergeschema/"))
+
+chk_df = spark.read.format("delta").load("/delta/mergeschema/")
+display(chk_df)
 
 # COMMAND ----------
 
@@ -78,23 +77,22 @@ dbutils.fs.rm("/delta/mergeschema", True)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC from pyspark.sql import Row
-# MAGIC from pyspark.sql.types import StructField, StructType, StringType, LongType
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("some", StringType(), True),
-# MAGIC #   StructField("col", StringType(), True),
-# MAGIC   StructField("ohno", StringType(), True),
-# MAGIC   StructField("names", LongType(), False)
-# MAGIC ])
-# MAGIC 
-# MAGIC rows = [Row("One", "tada", 1), 
-# MAGIC         Row("Two", "check", 2), 
-# MAGIC         Row("Three", "me", 3)]
-# MAGIC 
-# MAGIC src_df = spark.createDataFrame(rows, schema)
-# MAGIC display(src_df)
+from pyspark.sql import Row
+from pyspark.sql.types import StructField, StructType, StringType, LongType
+
+schema = StructType([
+  StructField("some", StringType(), True),
+#   StructField("col", StringType(), True),
+  StructField("ohno", StringType(), True),
+  StructField("names", LongType(), False)
+])
+
+rows = [Row("One", "tada", 1), 
+        Row("Two", "check", 2), 
+        Row("Three", "me", 3)]
+
+src_df = spark.createDataFrame(rows, schema)
+display(src_df)
 
 # COMMAND ----------
 
@@ -194,6 +192,12 @@ display(chk_df)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC 
+# MAGIC The data is still there!
+
+# COMMAND ----------
+
 display(dbutils.fs.ls("/delta/mergeschema/"))
 
 # COMMAND ----------
@@ -225,3 +229,15 @@ display(dbutils.fs.ls("/delta/mergeschema/"))
 # MAGIC --   'delta.columnMapping.maxColumnId' = '4',
 # MAGIC   'delta.columnMapping.mode' = 'name'
 # MAGIC )
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC Show History
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC 
+# MAGIC describe history default.TestSchemaMerge
