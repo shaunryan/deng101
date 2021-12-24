@@ -1,5 +1,5 @@
 // Databricks notebook source
-dbutils.fs.rm("adl://gcdatabricksdlsdev.azuredatalakestore.net/databricks/delta/gocompareenergy", true)
+dbutils.fs.rm(s"${get_storage_account()}/databricks/delta/mydatabase", true)
 
 // COMMAND ----------
 
