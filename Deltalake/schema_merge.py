@@ -204,7 +204,7 @@ display(dbutils.fs.ls("/delta/mergeschema/"))
 
 # MAGIC %md
 # MAGIC 
-# MAGIC ## Can We Fix It?
+# MAGIC ## Can We Fix It? NO!
 
 # COMMAND ----------
 
@@ -232,9 +232,33 @@ display(dbutils.fs.ls("/delta/mergeschema/"))
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC -- unsetting doesn't work
+# MAGIC ALTER TABLE default.TestSchemaMerge
+# MAGIC UNSET TBLPROPERTIES ( 'delta.columnMapping.mode')
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- can't be changed either
+# MAGIC ALTER TABLE default.TestSchemaMerge
+# MAGIC SET TBLPROPERTIES ( 'delta.columnMapping.mode' = 'id')
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- can't be changed either
+# MAGIC ALTER TABLE default.TestSchemaMerge
+# MAGIC SET TBLPROPERTIES (
+# MAGIC   'delta.minReaderVersion' = '1',
+# MAGIC   'delta.minWriterVersion' = '4'
+# MAGIC )
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC 
-# MAGIC Show History
+# MAGIC ## Show History
 
 # COMMAND ----------
 
