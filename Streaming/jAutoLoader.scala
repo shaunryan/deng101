@@ -1,10 +1,4 @@
 // Databricks notebook source
-import fathom_core.ConnectStorage
-
-ConnectStorage.ConnectStorage()
-
-// COMMAND ----------
-
 
 import org.apache.spark.sql.types._
 
@@ -16,34 +10,29 @@ val inputPath = s"${Configuration.getStorageAccount()}raw/${database}/"
 val outputPath = s"${Configuration.getStorageAccount()}databricks/delta/${database}/${table}/"
 val schema = StructType([StructField('name', StringType(), False)])
 
-val cloudFilesFormat = "json"
-val cloudFilesIncludeExistingFiles = "true"
-val cloudFilesMaxFilesPerTrigger = "1000"
-val cloudFilesMaxBytesPerTrigger = ""
-val cloudFilesUseNotifications = "false"
-val cloudFilesValidateOptions = "true"
-val cloudFilesQueueName = "queuegeneva"
-
+val options = Map(
+  "cloudFiles.useNotifications"     -> "true"
+  "cloudFiles.format"               -> "json"
+  "cloudFiles.includeExistingFiles" -> "true"
+  "cloudFiles.maxFilesPerTrigger"   -> "1000"
+//   "cloudFiles.maxBytesPerTrigger"   -> ""
+  "cloudFiles.useNotifications"     -> "false"
+  "cloudFiles.validateOptions"      -> "true"
+  "cloudFiles.connectionString"     -> Configuration.getDatalakeConnectionString()
+  "cloudFiles.resourceGroup"        -> Configuration.getResourceGroup()
+  "cloudFiles.subscriptionId"       -> Configuration.getSubscriptionId()
+  "cloudFiles.tenantId"             -> Configuration.getAzureADId()
+  "cloudFiles.clientId"             -> Configuration.getServicePrincipalId()
+  "cloudFiles.clientSecret"         -> Configuration.getServiceCredential()
+  "cloudFiles.queueName"            -> "queuegeneva"
+)
 
 // COMMAND ----------
 
 
 
 val df = spark.readStream.format("cloudFiles") 
-  .option("cloudFiles.useNotifications"     ,"true") 
-  .option("cloudFiles.format"               ,cloudFilesFormat)
-  .option("cloudFiles.includeExistingFiles" ,cloudFilesIncludeExistingFiles) 
-  .option("cloudFiles.maxFilesPerTrigger"   ,cloudFilesMaxFilesPerTrigger) 
-//   .option("cloudFiles.maxBytesPerTrigger"  ,cloudFilesMaxBytesPerTrigger) 
-  .option("cloudFiles.useNotifications"     ,cloudFilesUseNotifications) 
-  .option("cloudFiles.validateOptions"      ,cloudFilesValidateOptions) 
-  .option("cloudFiles.connectionString"     ,Configuration.getDatalakeConnectionString()) 
-  .option("cloudFiles.resourceGroup"        ,Configuration.getResourceGroup()) 
-  .option("cloudFiles.subscriptionId"       ,Configuration.getSubscriptionId()) 
-  .option("cloudFiles.tenantId"             ,Configuration.getAzureADId()) 
-  .option("cloudFiles.clientId"             ,Configuration.getServicePrincipalId()) 
-  .option("cloudFiles.clientSecret"         ,Configuration.getServiceCredential()) 
-  .option("cloudFiles.queueName"            ,cloudFilesQueueName) 
+  .options(options) 
   .schema(schema) 
   .load(inputPath)
 
