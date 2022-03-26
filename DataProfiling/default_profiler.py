@@ -1,9 +1,52 @@
 # Databricks notebook source
-dbutils.fs.rm("/FileStore/data_profiles/ge", True)
+# dbutils.widgets.removeAll()
+# dbutils.widgets.text("process_group", "processgroup", "process group")
+# dbutils.widgets.text("area", "area", "area")
+# dbutils.widgets.text("entity", "entity", "entity")
+# dbutils.widgets.text("stage", "stage", "stage")
 
 # COMMAND ----------
 
 # MAGIC %pip install great-expectations
+
+# COMMAND ----------
+
+
+process_group = dbutils.widgets.get("process_group")
+area = dbutils.widgets.get("area")
+entity = dbutils.widgets.get("entity")
+stage = dbutils.widgets.get("stage")
+datasource_name = f"{area}.{process_group}.{stage}.{entity}"
+suite_name = f"{area}.{process_group}.{stage}.{entity}"
+checkpoint_name = f"{area}.{process_group}.{stage}.{entity}.profile"
+
+root_sub_path = f"expectations/{area}/{process_group}"
+root_path = f"FileStore/{root_sub_path}"
+ge_path = f"{root_path}/ge"
+ge_root_directory = f"/dbfs/{ge_path}"
+org_id = spark.conf.get("spark.databricks.clusterUsageTags.clusterOwnerOrgId")
+host = f"adb-{org_id}.0.azuredatabricks.net"
+
+print(f"""
+process_group : {process_group}
+area : {area}
+entity : {entity}
+stage : {stage}
+datasource_name : {datasource_name}
+suite_name : {suite_name}
+checkpoint_name : {checkpoint_name}
+root_sub_path : {root_sub_path}
+root_path : {root_path}
+ge_path : {ge_path}
+ge_root_directory : {ge_root_directory}
+org_id : {org_id}
+host : {host}
+""")
+
+# COMMAND ----------
+
+dbutils.fs.rm(ge_path, True)
+dbutils.fs.mkdirs(ge_path)
 
 # COMMAND ----------
 
@@ -21,13 +64,9 @@ from great_expectations.data_context.types.base import (
 
 # COMMAND ----------
 
-root_directory = "/dbfs/FileStore/data_profiles/ge"
-
-# COMMAND ----------
-
 data_context_config = DataContextConfig(
     store_backend_defaults=FilesystemStoreBackendDefaults(
-        root_directory=root_directory
+        root_directory=ge_root_directory
     ),
 )
 context = BaseDataContext(project_config=data_context_config)
@@ -53,17 +92,16 @@ df = spark.read.format("csv")\
 
 # COMMAND ----------
 
-my_spark_datasource_config = {
-    "name": "insert_your_datasource_name_here",
+datasource_config = {
+    "name": datasource_name,
     "class_name": "Datasource",
     "execution_engine": {"class_name": "SparkDFExecutionEngine"},
     "data_connectors": {
-        "insert_your_data_connector_name_here": {
+        datasource_name: {
             "module_name": "great_expectations.datasource.data_connector",
             "class_name": "RuntimeDataConnector",
             "batch_identifiers": [
-                "some_key_maybe_pipeline_stage",
-                "some_other_key_maybe_run_id",
+                "run_id",
             ],
         }
     },
@@ -71,21 +109,20 @@ my_spark_datasource_config = {
 
 # COMMAND ----------
 
-context.test_yaml_config(yaml.dump(my_spark_datasource_config))
+context.test_yaml_config(yaml.dump(datasource_config))
 
 # COMMAND ----------
 
-context.add_datasource(**my_spark_datasource_config)
+context.add_datasource(**datasource_config)
 
 # COMMAND ----------
 
 batch_request = RuntimeBatchRequest(
-    datasource_name="insert_your_datasource_name_here",
-    data_connector_name="insert_your_data_connector_name_here",
-    data_asset_name="<YOUR_MEANGINGFUL_NAME>",  # This can be anything that identifies this data_asset for you
+    datasource_name=datasource_name,
+    data_connector_name=datasource_name,
+    data_asset_name=datasource_name,  # This can be anything that identifies this data_asset for you
     batch_identifiers={
-        "some_key_maybe_pipeline_stage": "prod",
-        "some_other_key_maybe_run_id": f"my_run_name_{datetime.date.today().strftime('%Y%m%d')}",
+        "run_id": f"{datasource_name}_{datetime.date.today().strftime('%Y%m%d')}",
     },
     runtime_parameters={"batch_data": df},  # Your dataframe goes here
 )
@@ -98,13 +135,13 @@ batch_request = RuntimeBatchRequest(
 
 # COMMAND ----------
 
-expectation_suite_name = "insert_your_expectation_suite_name_here"
+suite_name = suite_name
 context.create_expectation_suite(
-    expectation_suite_name=expectation_suite_name, overwrite_existing=True
+    expectation_suite_name=suite_name, overwrite_existing=True
 )
 validator = context.get_validator(
     batch_request=batch_request,
-    expectation_suite_name=expectation_suite_name,
+    expectation_suite_name=suite_name,
 )
 
 print(validator.head())
@@ -144,9 +181,9 @@ validator.save_expectation_suite(discard_failed_expectations=False)
 
 # COMMAND ----------
 
-my_checkpoint_name = "insert_your_checkpoint_name_here"
+checkpoint_name = checkpoint_name
 checkpoint_config = {
-    "name": my_checkpoint_name,
+    "name": checkpoint_name,
     "config_version": 1.0,
     "class_name": "SimpleCheckpoint",
     "run_name_template": "%Y%m%d-%H%M%S-my-run-name-template",
@@ -154,7 +191,7 @@ checkpoint_config = {
 
 # COMMAND ----------
 
-my_checkpoint = context.test_yaml_config(yaml.dump(checkpoint_config))
+checkpoint = context.test_yaml_config(yaml.dump(checkpoint_config))
 
 # COMMAND ----------
 
@@ -163,11 +200,11 @@ context.add_checkpoint(**checkpoint_config)
 # COMMAND ----------
 
 checkpoint_result = context.run_checkpoint(
-    checkpoint_name=my_checkpoint_name,
+    checkpoint_name=checkpoint_name,
     validations=[
         {
             "batch_request": batch_request,
-            "expectation_suite_name": expectation_suite_name,
+            "expectation_suite_name": suite_name,
         }
     ],
 )
@@ -180,10 +217,13 @@ checkpoint_result = context.run_checkpoint(
 
 # COMMAND ----------
 
-ge_path = "/FileStore/data_profiles/ge/uncommitted/data_docs/local_site"
-tmp_path = "file:/tmp/ge"
-dbutils.fs.rm("file:/tmp/ge", True)
-dbutils.fs.rm("/FileStore/data_profiles/ge.tar.gz", True)
+ge_doc_path = f"/{ge_path}/uncommitted/data_docs/local_site"
+tmp_path = f"file:/tmp/ge_{area}_{process_group}"
+from_tar_file = f"ge_{area}_{process_group}.tar.gz"
+to_tar_file = f"ge_{area}_{process_group}_{stage}_{entity}.tar.gz"
+
+dbutils.fs.rm(tmp_path, True)
+dbutils.fs.rm(f"{tmp_path}/{from_tar_file}", True)
 
 # COMMAND ----------
 
@@ -193,14 +233,18 @@ dbutils.fs.cp(ge_path, tmp_path, True)
 
 # MAGIC %sh
 # MAGIC 
-# MAGIC tar -czvf /tmp/ge.tar.gz /tmp/ge
+# MAGIC tar -czvf /tmp/ge_area_processgroup.tar.gz /tmp/ge_area_processgroup
 
 # COMMAND ----------
 
-dbutils.fs.cp("file:/tmp/ge.tar.gz", "/FileStore/data_profiles/ge.tar.gz", True)
+tmp_path = f"file:/tmp"
+from_path = f"{tmp_path}/{from_tar_file}"
+to_path = f"{root_path}/{to_tar_file}"
+print(f"Copying from {from_path} to {to_path}")
+dbutils.fs.cp(f"{tmp_path}/{from_tar_file}", f"{root_path}/{to_tar_file}", True)
 
 # COMMAND ----------
 
-displayHTML("""
-<a href='https://adb-8723178682651460.0.azuredatabricks.net/files/data_profiles/ge.tar.gz'>tar -xvf archive.tar.gz</a>
+displayHTML(f"""
+<a href='https://{host}/files/{root_sub_path}/{to_tar_file}'>tar -xvf {to_tar_file}</a>
 """)
