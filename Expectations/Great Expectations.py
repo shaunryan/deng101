@@ -1,113 +1,138 @@
 # Databricks notebook source
-# MAGIC %md
-# MAGIC ## Great Expectations
-# MAGIC A simple demonstration of how to use the basic functions of the Great Expectations library with Pyspark
+# MAGIC %pip install great-expectations
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC pip install great_expectations
+import datetime
 
-# COMMAND ----------
-
-import great_expectations as ge
 import pandas as pd
+from ruamel import yaml
+
+from great_expectations.core.batch import RuntimeBatchRequest
+from great_expectations.data_context import BaseDataContext
+from great_expectations.data_context.types.base import (
+    DataContextConfig,
+    FilesystemStoreBackendDefaults,
+)
 
 # COMMAND ----------
 
-from pyspark.sql.types import *
+root_directory = "/dbfs/great_expectations/"
 
-schema = StructType(
-  [StructField("String", StringType()),
-   StructField("Value", StringType())]
+data_context_config = DataContextConfig(
+    store_backend_defaults=FilesystemStoreBackendDefaults(
+        root_directory=root_directory
+    ),
 )
-
-tuple = (["one", 1], ["two", 2], ["two", 2])
-df = spark.createDataFrame(t_list, schema)
-df.createOrReplaceTempView("tC_python")
-
+context = BaseDataContext(project_config=data_context_config)
 
 # COMMAND ----------
 
-# first lets create a simple dataframe
-
-data = {
-  "String": ["one", "two", "two",],
-  "Value": [1, 2, 2,],
-}
-
-# lets create a pandas dataframe
-pd_df = pd.DataFrame.from_dict(data)
-
-# we can use pandas to avoid needing to define schema
-df = spark.createDataFrame(
-  pd_df
-)
+df = spark.read.format("csv")\
+    .option("header", "true")\
+    .option("inferSchema", "true")\
+    .load("/databricks-datasets/nyctaxi/tripdata/yellow/yellow_tripdata_2019-01.csv.gz")
 
 display(df)
 
 # COMMAND ----------
 
-# now let us create the appropriate great-expectations objects
-
-# for pandas we create a great expectations object like this
-pd_df_ge = ge.from_pandas(pd_df)
-
-# while for pyspark we can do it like this
-df_ge = ge.dataset.SparkDFDataset(df)
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Running Great Expectations tests
-# MAGIC 
-# MAGIC Expectations return a dictionary of metadata, including a boolean "success" value
-
-# COMMAND ----------
-
-#this works the same for bot Panmdas and PySpark Great Expectations datasets
-print(pd_df_ge.expect_table_row_count_to_be_between(1,10))
-
-print(df_ge.expect_table_row_count_to_be_between(1,10))
+my_spark_datasource_config = """
+name: insert_your_datasource_name_here
+class_name: Datasource
+execution_engine:
+  class_name: SparkDFExecutionEngine
+data_connectors:
+  insert_your_data_connector_name_here:
+    module_name: great_expectations.datasource.data_connector
+    class_name: RuntimeDataConnector
+    batch_identifiers:
+      - some_key_maybe_pipeline_stage
+      - some_other_key_maybe_run_id
+"""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Differences between Great Expectations Pandas and Pyspark Datasets
+context.test_yaml_config(my_spark_datasource_config)
 
 # COMMAND ----------
 
-# pandas datasets inherit all the pandas dataframe methods
-print(pd_df_ge.count())
-
-# while GE pyspark datasets do not and the following leads to an error
-print(df_ge.count())
+context.add_datasource(**yaml.load(my_spark_datasource_config))
 
 # COMMAND ----------
 
-# however you can access the original pyspark dataframe using df_ge.spark_df
-
-df_ge.spark_df.count()
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC # Taking Great Expectations further
-# MAGIC 
-# MAGIC If you want to make use of Great Expectations data context features you will need to install a data context. details can be found here https://docs.greatexpectations.io/en/latest/guides/how_to_guides/configuring_data_contexts/how_to_instantiate_a_data_context_on_a_databricks_spark_cluster.html  
-
-# COMMAND ----------
-
-print(df_ge)
+batch_request = RuntimeBatchRequest(
+    datasource_name="insert_your_datasource_name_here",
+    data_connector_name="insert_your_data_connector_name_here",
+    data_asset_name="<YOUR_MEANGINGFUL_NAME>",  # This can be anything that identifies this data_asset for you
+    batch_identifiers={
+        "some_key_maybe_pipeline_stage": "prod",
+        "some_other_key_maybe_run_id": f"my_run_name_{datetime.date.today().strftime('%Y%m%d')}",
+    },
+    runtime_parameters={"batch_data": df},  # Your dataframe goes here
+)
 
 # COMMAND ----------
 
-df_ge.count()
+expectation_suite_name = "insert_your_expectation_suite_name_here"
+context.create_expectation_suite(
+    expectation_suite_name=expectation_suite_name, overwrite_existing=True
+)
+validator = context.get_validator(
+    batch_request=batch_request,
+    expectation_suite_name=expectation_suite_name,
+)
+
+print(validator.head())
 
 # COMMAND ----------
 
-pd_df_ge.count()
+validator.expect_column_values_to_not_be_null(column="passenger_count")
 
 # COMMAND ----------
 
-pd_df.dataframe.count()
+validator.expect_column_values_to_be_between(
+    column="congestion_surcharge", min_value=0, max_value=1000
+)
+
+# COMMAND ----------
+
+validator.save_expectation_suite(discard_failed_expectations=False)
+
+# COMMAND ----------
+
+my_checkpoint_name = "insert_your_checkpoint_name_here"
+my_checkpoint_config = f"""
+name: {my_checkpoint_name}
+config_version: 1.0
+class_name: SimpleCheckpoint
+run_name_template: "%Y%m%d-%H%M%S-my-run-name-template"
+"""
+
+# COMMAND ----------
+
+my_checkpoint = context.test_yaml_config(my_checkpoint_config)
+
+# COMMAND ----------
+
+context.add_checkpoint(**yaml.load(my_checkpoint_config))
+
+# COMMAND ----------
+
+checkpoint_result = context.run_checkpoint(
+    checkpoint_name=my_checkpoint_name,
+    validations=[
+        {
+            "batch_request": batch_request,
+            "expectation_suite_name": expectation_suite_name,
+        }
+    ],
+)
+
+# COMMAND ----------
+
+display()
+
+# COMMAND ----------
+
+# databricks fs cp -r dbfs:/great_expectations/uncommitted/data_docs/local_site/great_expectations/uncommitted/data_docs/local_site/

@@ -129,6 +129,12 @@ dbutils.fs.rm(f"{app_config.get_storage_account()}databricks/delta/{database}", 
 # MAGIC val resourceGroup = sys.env.get("RESOURCEGROUP").get
 # MAGIC val subscriptionId = sys.env.get("SUBSCRIPTIONID").get
 # MAGIC val tenantId = sys.env.get("AZUREADID").get
+
+# COMMAND ----------
+
+# MAGIC %scala
+# MAGIC 
+# MAGIC // create event grid
 # MAGIC 
 # MAGIC import com.databricks.sql.CloudFilesAzureResourceManager
 # MAGIC val manager = CloudFilesAzureResourceManager
@@ -147,25 +153,14 @@ dbutils.fs.rm(f"{app_config.get_storage_account()}databricks/delta/{database}", 
 # MAGIC manager.setUpNotificationServices("autoloader")
 # MAGIC 
 # MAGIC // List notification services created by Auto Loader
-# MAGIC val svcs = manager.listNotificationServices()
-# MAGIC display(svcs)
+# MAGIC // val svcs = manager.listNotificationServices()
+# MAGIC // display(svcs)
 
 # COMMAND ----------
 
 # MAGIC %scala
 # MAGIC 
-# MAGIC val scope = sys.env.get("AUTOMATIONSCOPE").get
-# MAGIC val connectionString = dbutils.secrets.get(scope=scope, key="QUEUECONNECTION")
-# MAGIC val clientSecret = dbutils.secrets.get(scope=scope, key="DATALAKE-SPN-CREDENTIAL") 
-# MAGIC val clientId = dbutils.secrets.get(scope=scope, key="DATALAKE-SPN-APPID")
-# MAGIC val storageAccount = sys.env.get("STORAGEACCOUNT").get
-# MAGIC val path = s"${storageAccount}raw/autoloader/"
-# MAGIC 
-# MAGIC val resourceGroup = sys.env.get("RESOURCEGROUP").get
-# MAGIC val subscriptionId = sys.env.get("SUBSCRIPTIONID").get
-# MAGIC val tenantId = sys.env.get("AZUREADID").get
-# MAGIC 
-# MAGIC 
+# MAGIC // tear down
 # MAGIC 
 # MAGIC import com.databricks.sql.CloudFilesAzureResourceManager
 # MAGIC val manager = CloudFilesAzureResourceManager
@@ -181,10 +176,14 @@ dbutils.fs.rm(f"{app_config.get_storage_account()}databricks/delta/{database}", 
 # MAGIC 
 # MAGIC // List notification services created by Auto Loader
 # MAGIC val svcs = manager.listNotificationServices()
-# MAGIC display(svcs)
-# MAGIC 
 # MAGIC 
 # MAGIC // Tear down the notification services created for a specific stream ID.
 # MAGIC svcs.collect().foreach( svc => 
 # MAGIC   manager.tearDownNotificationServices(svc.getAs("streamId"))
 # MAGIC )
+
+# COMMAND ----------
+
+# MAGIC %scala
+# MAGIC val svcsClean = manager.listNotificationServices()
+# MAGIC display(svcsClean)
