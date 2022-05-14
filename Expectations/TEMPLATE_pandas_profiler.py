@@ -41,7 +41,7 @@ profile.to_file('/tmp/profile_report.html')
 dbutils.fs.ls("file:/tmp/")
 dbutils.fs.cp("file:/tmp/profile_report.html", "/FileStore/data_profiles/profile_report.html")
 displayHTML("""
-<a href='https://adb-1593923126743168.8.azuredatabricks.net/files/data_profiles/profile_report.html'>report</a>
+<a href='https://8723178682651460.0.azuredatabricks.net/files/data_profiles/profile_report.html'>report</a>
 """)
 
 

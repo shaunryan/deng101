@@ -10,9 +10,9 @@
 # COMMAND ----------
 
 # dbutils.widgets.removeAll()
-# dbutils.widgets.text("ProcessGroup", "fnzgl", "ProcessGroup")
-# dbutils.widgets.text("Area", "fnz", "Area")
-# dbutils.widgets.text("Entity", "generalledger", "Entity")
+# dbutils.widgets.text("ProcessGroup", "adworks", "ProcessGroup")
+# dbutils.widgets.text("Area", "adworks", "Area")
+# dbutils.widgets.text("Entity", "sales", "Entity")
 # dbutils.widgets.text("Stage", "base", "Stage")
 
 # COMMAND ----------
@@ -24,9 +24,9 @@ stage = dbutils.widgets.get("Stage").lower()
 
 format = "csv"
 name = f"{area}_{process_group}_{stage}_{entity}"
-root = "/FileStore/temp/fnz/upload/GL"
+root = "/FileStore/temp/adworks/upload/sales"
 file = f"{name}.{format}"
-dbx_host = 'adb-1593923126743168.8.azuredatabricks.net'
+dbx_host = 'adb-8723178682651460.0.azuredatabricks.net'
 
 expectation_suite_name = f"{name}_suite"
 
@@ -245,7 +245,7 @@ dbutils.fs.cp(docs_path, workDir, True)
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC tar -czvf /tmp/fnz_fnzgl_ge.tar.gz /tmp/expectations
+# MAGIC tar -czvf /tmp/adworks_adworks_ge.tar.gz /tmp/expectations
 
 # COMMAND ----------
 
