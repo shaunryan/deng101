@@ -100,3 +100,69 @@
 # COMMAND ----------
 
 print(myDf.first()[1][1])
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC # From Dictionary
+
+# COMMAND ----------
+
+# MAGIC %python
+# MAGIC from pyspark.sql import Row
+# MAGIC from pyspark.sql.types import StructField, StructType, StringType, IntegerType
+# MAGIC 
+# MAGIC schema = StructType([
+# MAGIC   StructField("measure", StringType(), True),
+# MAGIC   StructField("value", IntegerType(), True)
+# MAGIC ])
+# MAGIC 
+# MAGIC stats = {
+# MAGIC   "measure1": 1000,
+# MAGIC   "measure2": 1000
+# MAGIC }
+# MAGIC 
+# MAGIC rows = [Row(key, value) for (key,value) in stats.items()]
+# MAGIC df = spark.createDataFrame(rows, schema)
+# MAGIC df.show()
+
+# COMMAND ----------
+
+# MAGIC %python
+# MAGIC from pyspark.sql.types import StructField, StructType, StringType, IntegerType
+# MAGIC 
+# MAGIC col_1 = "measure"
+# MAGIC col_2 = "value"
+# MAGIC 
+# MAGIC schema = StructType([
+# MAGIC   StructField(col_1, StringType(), True),
+# MAGIC   StructField(col_2, IntegerType(), True)
+# MAGIC ])
+# MAGIC 
+# MAGIC stats = {
+# MAGIC   "validRows": 1000,
+# MAGIC   "expectedRows": 1000
+# MAGIC }
+# MAGIC 
+# MAGIC rows = [{col_1:key, col_2: value} for (key,value) in stats.items()]
+# MAGIC df = spark.createDataFrame(rows, schema)
+# MAGIC display(df)
+
+# COMMAND ----------
+
+# without a pivot
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType
+
+col_1 = "measure"
+col_2 = "value"
+
+schema = StructType([
+  StructField(col_1, StringType(), True),
+  StructField(col_2, IntegerType(), True)
+])
+
+# transform dictionary
+rows = [{col_1:key, col_2: value} for (key,value) in stats.items()]
+df = spark.createDataFrame(rows, schema)
+display(df)
