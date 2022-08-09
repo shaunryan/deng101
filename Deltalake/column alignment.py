@@ -13,23 +13,22 @@
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC from pyspark.sql.types import *
-# MAGIC from pyspark.sql import functions as fn
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("a", StringType(), True),
-# MAGIC   StructField("b", IntegerType(), True),
-# MAGIC   StructField("c", BooleanType(), True)
-# MAGIC ])
-# MAGIC 
-# MAGIC data = [{"a":"a", "b":1, "c":False},
-# MAGIC         {"a":"b", "b":2, "c":True},
-# MAGIC         {"a":"c", "b":3, "c":False}]
-# MAGIC 
-# MAGIC df = spark.createDataFrame(data, schema)
-# MAGIC display(df)
+
+from pyspark.sql.types import *
+from pyspark.sql import functions as fn
+
+schema = StructType([
+  StructField("a", StringType(), True),
+  StructField("b", IntegerType(), True),
+  StructField("c", BooleanType(), True)
+])
+
+data = [{"a":"a", "b":1, "c":False},
+        {"a":"b", "b":2, "c":True},
+        {"a":"c", "b":3, "c":False}]
+
+df = spark.createDataFrame(data, schema)
+display(df)
 
 # COMMAND ----------
 
@@ -53,21 +52,21 @@ display(result)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC from pyspark.sql.types import *
-# MAGIC from pyspark.sql import functions as fn
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("a", StringType(), True),
-# MAGIC   StructField("c", BooleanType(), True)
-# MAGIC ])
-# MAGIC 
-# MAGIC data = [{"a":"d", "b":4, "c":False},
-# MAGIC         {"a":"e", "b":5, "c":False}]
-# MAGIC 
-# MAGIC df = spark.createDataFrame(data, schema)
-# MAGIC display(df)
+
+
+from pyspark.sql.types import *
+from pyspark.sql import functions as fn
+
+schema = StructType([
+  StructField("a", StringType(), True),
+  StructField("c", BooleanType(), True)
+])
+
+data = [{"a":"d", "b":4, "c":False},
+        {"a":"e", "b":5, "c":False}]
+
+df = spark.createDataFrame(data, schema)
+display(df)
 
 # COMMAND ----------
 
@@ -91,24 +90,24 @@ display(result)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC from pyspark.sql.types import *
-# MAGIC from pyspark.sql import functions as fn
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("a", StringType(), True),
-# MAGIC   StructField("b", IntegerType(), True),
-# MAGIC   StructField("c", BooleanType(), True),
-# MAGIC   StructField("d", IntegerType(), True)
-# MAGIC ])
-# MAGIC 
-# MAGIC data = [{"a":"f", "b":6, "c":False , "d":1},
-# MAGIC         {"a":"g", "b":7, "c":True  , "d":2},
-# MAGIC         {"a":"h", "b":8, "c":False , "d":3}]
-# MAGIC 
-# MAGIC df = spark.createDataFrame(data, schema)
-# MAGIC display(df)
+
+
+from pyspark.sql.types import *
+from pyspark.sql import functions as fn
+
+schema = StructType([
+  StructField("a", StringType(), True),
+  StructField("b", IntegerType(), True),
+  StructField("c", BooleanType(), True),
+  StructField("d", IntegerType(), True)
+])
+
+data = [{"a":"f", "b":6, "c":False , "d":1},
+        {"a":"g", "b":7, "c":True  , "d":2},
+        {"a":"h", "b":8, "c":False , "d":3}]
+
+df = spark.createDataFrame(data, schema)
+display(df)
 
 # COMMAND ----------
 
@@ -151,23 +150,23 @@ display(result)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC from pyspark.sql.types import *
-# MAGIC from pyspark.sql import functions as fn
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("a", StringType(), True),
-# MAGIC   StructField("b", IntegerType(), True),
-# MAGIC   StructField("d", IntegerType(), True)
-# MAGIC ])
-# MAGIC 
-# MAGIC data = [{"a":"f", "b":60, "d":1},
-# MAGIC         {"a":"g", "b":70, "d":2},
-# MAGIC         {"a":"h", "b":80, "d":3}]
-# MAGIC 
-# MAGIC df = spark.createDataFrame(data, schema)
-# MAGIC display(df)
+
+
+from pyspark.sql.types import *
+from pyspark.sql import functions as fn
+
+schema = StructType([
+  StructField("a", StringType(), True),
+  StructField("b", IntegerType(), True),
+  StructField("d", IntegerType(), True)
+])
+
+data = [{"a":"f", "b":60, "d":1},
+        {"a":"g", "b":70, "d":2},
+        {"a":"h", "b":80, "d":3}]
+
+df = spark.createDataFrame(data, schema)
+display(df)
 
 # COMMAND ----------
 
@@ -245,26 +244,25 @@ display(result)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC from pyspark.sql.types import *
-# MAGIC from pyspark.sql import functions as fn
-# MAGIC 
-# MAGIC schema = StructType([
-# MAGIC   StructField("f", StringType(), True),
-# MAGIC   StructField("a", StringType(), True),
-# MAGIC   StructField("b", IntegerType(), True),
-# MAGIC   StructField("c", BooleanType(), True),
-# MAGIC   StructField("d", IntegerType(), True),
-# MAGIC   StructField("e", StringType(), True)
-# MAGIC ])
-# MAGIC 
-# MAGIC data = [{"f":"q", "a":"f", "b":600, "c":False , "d":1, "e":"one"},
-# MAGIC         {"f":"w", "a":"g", "b":700, "c":True  , "d":2, "e":"two"},
-# MAGIC         {"f":"e", "a":"h", "b":800, "c":False , "d":3, "e":"three"}]
-# MAGIC 
-# MAGIC df = spark.createDataFrame(data, schema)
-# MAGIC display(df)
+
+from pyspark.sql.types import *
+from pyspark.sql import functions as fn
+
+schema = StructType([
+  StructField("f", StringType(), True),
+  StructField("a", StringType(), True),
+  StructField("b", IntegerType(), True),
+  StructField("c", BooleanType(), True),
+  StructField("d", IntegerType(), True),
+  StructField("e", StringType(), True)
+])
+
+data = [{"f":"q", "a":"f", "b":600, "c":False , "d":1, "e":"one"},
+        {"f":"w", "a":"g", "b":700, "c":True  , "d":2, "e":"two"},
+        {"f":"e", "a":"h", "b":800, "c":False , "d":3, "e":"three"}]
+
+df = spark.createDataFrame(data, schema)
+display(df)
 
 # COMMAND ----------
 
