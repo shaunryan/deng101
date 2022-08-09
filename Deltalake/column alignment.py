@@ -1,9 +1,11 @@
 # Databricks notebook source
 # MAGIC %sql
+# MAGIC 
+# MAGIC -- create table
 # MAGIC Drop table if exists default.test;
 # MAGIC create table default.test
 # MAGIC (
-# MAGIC -- inserting with few columns doesn't work if you have an identity
+# MAGIC -- inserting with fewer columns doesn't work if you have a generated identity
 # MAGIC --   id long GENERATED ALWAYS AS IDENTITY,
 # MAGIC   a string,
 # MAGIC   b int,
@@ -12,6 +14,15 @@
 # MAGIC using delta
 
 # COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC # Setup
+# MAGIC 
+# MAGIC ### Normal Insert
+
+# COMMAND ----------
+
 
 
 from pyspark.sql.types import *
@@ -48,7 +59,7 @@ display(result)
 
 # MAGIC %md
 # MAGIC 
-# MAGIC # Insert with Fewer Columns
+# MAGIC # Insert with Fewer Columns - Works Fine
 
 # COMMAND ----------
 
@@ -86,7 +97,7 @@ display(result)
 
 # MAGIC %md
 # MAGIC 
-# MAGIC # Insert with More Columns
+# MAGIC # Insert with More Columns - this will fail
 
 # COMMAND ----------
 
@@ -111,6 +122,12 @@ display(df)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC 
+# MAGIC ### Method 1: See merge options below cmd17
+
+# COMMAND ----------
+
 try:
   options = {}
   result = (
@@ -120,6 +137,12 @@ try:
   display(result)
 except Exception as e:
   print(e)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
+# MAGIC ### Merge 2: auto merge
 
 # COMMAND ----------
 
@@ -140,7 +163,7 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Merge with Fewer Columns - This will fail
+# MAGIC # Merge with Fewer Columns - This will fail see methods to resolve
 
 # COMMAND ----------
 
@@ -149,7 +172,6 @@ display(result)
 # MAGIC ### Method 1: sync the set and values clause
 
 # COMMAND ----------
-
 
 
 from pyspark.sql.types import *
@@ -226,7 +248,7 @@ result = (
     'dst.a = src.a'
   )
   .whenNotMatchedInsertAll()
-  .whenMatchedUpdateAll("dst.b is not null") # fails with the update
+  .whenMatchedUpdateAll("dst.b is not null")
   .whenMatchedDelete()
   .execute()
 )
