@@ -8,7 +8,3 @@ select coalesce(to_date(GetArgument ("slice_date"), 'yyyy/MM/DD'), CURRENT_DATE(
 -- COMMAND ----------
 
 select coalesce(to_timestamp(GetArgument ("slice_date"), 'yyyy/MM/DD'), CURRENT_TIMESTAMP()) as CurrentTimestamp
-
--- COMMAND ----------
-
-DROP WDIGET database
