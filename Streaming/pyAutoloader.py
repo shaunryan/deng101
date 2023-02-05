@@ -22,13 +22,20 @@ table = "events"
 
 data_root_path = f"/databricks-datasets/structured-streaming/{database}"
 datalake_root_path = f"/mnt/datalake/data/landing/{database}"
-roots = [checkpoint_root, datalake_root_path]
 checkpoint_root = f"/mnt/datalake/checkpoint/landing/{database}"
+roots = [checkpoint_root, datalake_root_path]
 checkpoint_path = f"{checkpoint_root}/{table}"
 datalake_path = f"{datalake_root_path}/{table}"
 database_table = f"{database}.{table}"
 sql_database_table = f"`{database}`.`{table}`"
 SQL = f"select source_file, count(1) as row_count from {sql_database_table} group by source_file"
+source_options = {
+  "cloudFiles.format": ext,
+  "cloudFiles.schemaLocation": checkpoint_path
+}
+dest_options = {
+  "checkpointLocation": checkpoint_path
+}
 
 def clear_demo(paths:list, database:str):
   for p in paths:
@@ -46,18 +53,26 @@ def copy_to_stream_landing(files:list, from_root:str, to_root:str, filename:str,
     print(f"copying {from_path} to {to_path}")
     dbutils.fs.cp(from_path, to_path)
 
-def load_new_data(await_termination:bool=True):
+def load_new_data(
+  source:str, 
+  destination:str, 
+  source_options:dict, 
+  dest_options:dict, 
+  await_termination:bool=True
+):
   # Configure Auto Loader to ingest JSON data to a Delta table
   stream = (spark.readStream
     .format("cloudFiles")
-    .option("cloudFiles.format", "json")
-    .option("cloudFiles.schemaLocation", checkpoint_path)
-    .load(datalake_path)
-    .select("*", fn.input_file_name().alias("source_file"), fn.current_timestamp().alias("processing_time"))
+    .options(**source_options)
+    .load(source)
+    .select("*", 
+      fn.input_file_name().alias("source_file"), 
+      fn.current_timestamp().alias("processing_time")
+     )
     .writeStream
-    .option("checkpointLocation", checkpoint_path)
+    .options(**dest_options)
     .trigger(availableNow=True)
-    .toTable(database_table))
+    .toTable(destination))
   
   # awaiting the stream will block until the stream ended
   # with availableNow trigger the stream will end when all the files
@@ -82,7 +97,7 @@ display(files)
 
 # COMMAND ----------
 
-load_new_data()
+load_new_data(datalake_path, database_table, source_options, dest_options)
 check_data_loaded()
 
 # COMMAND ----------
@@ -95,7 +110,7 @@ check_data_loaded()
 
 # COMMAND ----------
 
-load_new_data()
+load_new_data(datalake_path, database_table, source_options, dest_options)
 check_data_loaded()
 
 # COMMAND ----------
@@ -109,7 +124,7 @@ check_data_loaded()
 # MAGIC 
 # MAGIC Result:
 # MAGIC 
-# MAGIC - Data from file it incrementally appended to the table and checkpointed
+# MAGIC - Data from the file is incrementally appended to the table and checkpointed
 
 # COMMAND ----------
 
@@ -119,5 +134,5 @@ display(files)
 
 # COMMAND ----------
 
-load_new_data()
+load_new_data(datalake_path, database_table, source_options, dest_options)
 check_data_loaded()
