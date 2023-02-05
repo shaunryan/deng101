@@ -22,6 +22,7 @@ table = "events"
 
 data_root_path = f"/databricks-datasets/structured-streaming/{database}"
 datalake_root_path = f"/mnt/datalake/data/landing/{database}"
+roots = [checkpoint_root, datalake_root_path]
 checkpoint_root = f"/mnt/datalake/checkpoint/landing/{database}"
 checkpoint_path = f"{checkpoint_root}/{table}"
 datalake_path = f"{datalake_root_path}/{table}"
@@ -29,9 +30,10 @@ database_table = f"{database}.{table}"
 sql_database_table = f"`{database}`.`{table}`"
 SQL = f"select source_file, count(1) as row_count from {sql_database_table} group by source_file"
 
-def clear_stream_root(path:str):
-  dbutils.fs.rm(path, True)
-  dbutils.fs.mkdirs(path)
+def clear_demo(paths:list, database:str):
+  for p in paths:
+    dbutils.fs.rm(p, True)
+    dbutils.fs.mkdirs(p)
   spark.sql(f"DROP DATABASE IF EXISTS {database} cascade")
   spark.sql(f"CREATE DATABASE IF NOT EXISTS {database}")
 
@@ -57,6 +59,9 @@ def load_new_data(await_termination:bool=True):
     .trigger(availableNow=True)
     .toTable(database_table))
   
+  # awaiting the stream will block until the stream ended
+  # with availableNow trigger the stream will end when all the files
+  # that haven't been processed yet are processed
   if await_termination:
     stream.awaitTermination()
 
@@ -64,8 +69,7 @@ def check_data_loaded(sql:str=SQL):
   df = spark.sql(SQL)
   display(df)
   
-clear_stream_root(checkpoint_root)
-clear_stream_root(datalake_root_path)
+clear_demo(roots, database)
 copy_to_stream_landing(numbers, data_root_path, datalake_path, filename)
 files = dbutils.fs.ls(datalake_path)
 display(files)
