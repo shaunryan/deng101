@@ -1,0 +1,1 @@
+id INT,allow_contact BOOLEAN

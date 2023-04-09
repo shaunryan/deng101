@@ -1,0 +1,149 @@
+# The JSON and CSV parsers support three modes when parsing records: PERMISSIVE, DROPMALFORMED, and FAILFAST. When used together with rescuedDataColumn, data type mismatches do not cause records to be dropped in DROPMALFORMED mode or throw an error in FAILFAST mode. Only corrupt records are dropped or throw errors, such as incomplete or malformed JSON or CSV. If you use badRecordsPath when parsing JSON or CSV, data type mismatches are not considered as bad records when using the rescuedDataColumn. Only incomplete and malformed JSON or CSV records are stored in badRecordsPath.
+
+# schema inference
+# spark.databricks.cloudFiles.schemaInference.sampleSize.numBytes: 50gb
+# spark.databricks.cloudFiles.schemaInference.sampleSize.numFiles: 1000
+
+# https://docs.databricks.com/ingestion/auto-loader/index.html
+# https://docs.databricks.com/ingestion/auto-loader/options.html#common-auto-loader-options
+autoloader:
+  cloudFiles.format: csv # required
+  cloudFiles.schemaLocation: None # required when inferring the schema
+  # cloudFiles.inferColumnTypes: true # schema hints can be used either way
+  # cloudFiles.schemaHints: None # tags map<string,string>, version int
+  # cloudFiles.allowOverwrites: false
+  # cloudFiles.backfillInterval: None  # 1 day to backfill once a day
+  # cloudFiles.includeExistingFiles: false # columns are inferred as strings when inferring JSON and CSV datasets
+  # cloudFiles.maxBytesPerTrigger: None # 10g to limit each microbatch to 10 GB of data. This option has no effect when used with Trigger.Once().
+  # cloudFiles.maxFileAge: None # How long a file event is tracked for deduplication purposes.
+  # cloudFiles.maxFilesPerTrigger: 1000 # This option has no effect when used with Trigger.Once().
+  # cloudFiles.partitionColumns: None
+  cloudFiles.schemaEvolutionMode: addNewColumns # when a schema is not provided. "none" otherwise.  
+  # cloudFiles.useStrictGlobber: false
+  # cloudFiles.validateOptions: true
+
+listing:
+  cloudFiles.useIncrementalListing: True  # best effort to automatically detect if a given directory is applicable for the incremental listing. Else True or False
+  # notification
+  # cloudFiles.fetchParallelism: 1
+  # cloudFiles.pathRewrites: None
+  # cloudFiles.resourceTag: None
+  # cloudFiles.resourceTag: None
+  # cloudFiles.useNotifications: false
+
+formats:
+  generic:
+    ignoreCorruptFiles: false
+    ignoreMissingFiles: false # (true for COPY INTO)
+    modifiedAfter: None
+    modifiedBefore: None
+    pathGlobFilter: None
+    recursiveFileLookup: false
+  # https://docs.databricks.com/ingestion/auto-loader/options.html#csv-options
+  csv:
+    # badRecordsPath: None    
+    # charToEscapeQuoteEscaping: \0
+    # columnNameOfCorruptRecord: _corrupt_record 
+    # comment: '\u0000'   
+    # dateFormat: yyyy-MM-dd
+    emptyValue: ""
+    encoding: UTF-8     
+    # enforceSchema: true 
+    escape: \  
+    header: true      
+    # ignoreLeadingWhiteSpace: false 
+    # ignoreTrailingWhiteSpace: false
+    # inferSchema: true  
+    # lineSep: None       
+    # locale: US          
+    # maxCharsPerColumn: -1 
+    # maxColumns: 20480
+    # mergeSchema: false  
+    mode: PERMISSIVE    
+    # multiLine: false    
+    # nanValue: NaN       
+    # negativeInf: -Inf   
+    nullValue: ""
+    # Type: String
+    # parserCaseSensitive: false # deprecated -> readerCaseSensitive
+    # positiveInf: Inf     
+    quote: \            
+    # readerCaseSensitive: true 
+    # rescuedDataColumn: None 
+    sep: ","
+    # del: ","
+    # skipRows: 0         
+    # timestampFormat: yyyy-MM-dd'T'HH:mm:ss[.SSS][XXX]
+    # timeZone: None     
+    # unescapedQuoteHandling: STOP_AT_DELIMITER
+  json:
+    allowBackslashEscapingAnyCharacter: false
+    allowComments: false
+    allowNonNumericNumbers: true
+    allowNumericLeadingZeros: false
+    allowSingleQuotes: true
+    allowUnquotedControlChars: false
+    allowUnquotedFieldNames: false
+    badRecordsPath: None
+    columnNameOfCorruptRecord: _corrupt_record
+    dateFormat: yyyy-MM-dd
+    dropFieldIfAllNull: false
+    encoding: UTF-8
+    # charset: UTF-8
+    inferTimestamp: false
+    lineSep: None # which covers \r, \r\n, and \n
+    locale: US # java.util.Locale identifier
+    mode: PERMISSIVE
+    multiLine: false
+    prefersDecimal: false
+    primitivesAsString: false
+    rescuedDataColumn: None
+    timestampFormat: yyyy-MM-dd'T'HH:mm:ss[.SSS][XXX]
+    timeZone: None #java.time.ZoneId
+  avro:
+    datetimeRebaseMode: LEGACY
+    int96RebaseMode: LEGACY
+    mergeSchema: false
+    readerCaseSensitive: true
+    rescuedDataColumn: None
+  text:
+    encoding: UTF-8
+    lineSep: None #which covers \r, \r\n and \n
+    wholeText: false
+  orc:
+    mergeSchema: false
+
+cloud:
+  azure:
+    cloudFiles.clientId: None
+    cloudFiles.clientSecret: None
+    cloudFiles.connectionString: None
+    cloudFiles.resourceGroup: None
+    cloudFiles.subscriptionId: None
+    cloudFiles.tenantId: None
+    # if cloudFiles.useNotifications = true & you want Auto Loader to set up the notification services for you:
+    cloudFiles.queueName: None
+  aws:
+    # cloudFiles.useNotifications = true and you want Auto Loader to set up the notification services for you:
+    cloudFiles.region: None # required
+    # cloudFiles.useNotifications = true and you want Auto Loader to use a queue that you have already set up:
+    cloudFiles.queueUrl: None
+    # use the thse options to provide credentials to access AWS SNS and SQS when IAM roles are not available or when you’re ingesting data from different clouds.
+    cloudFiles.awsAccessKey: None
+    cloudFiles.awsSecretKey: None
+    cloudFiles.roleArn: None
+    cloudFiles.roleExternalId: None
+    cloudFiles.roleSessionName: None
+    cloudFiles.stsEndpoint: None
+  google:
+    cloudFiles.client: None
+    cloudFiles.clientEmail: None
+    cloudFiles.privateKey: None
+    cloudFiles.privateKeyId: None
+    cloudFiles.projectId: None
+    # if you choose cloudFiles.useNotifications = true and you want Auto Loader to use a queue that you have already set up
+    cloudFiles.subscription: None
+
+
+
+
