@@ -1,5 +1,13 @@
 fields:
 -   metadata: {}
+    name: flag
+    nullable: true
+    type: string
+-   metadata: {}
+    name: period
+    nullable: true
+    type: timestamp
+-   metadata: {}
     name: id
     nullable: true
     type: integer

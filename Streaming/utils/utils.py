@@ -71,6 +71,12 @@ def get_source_options(name:str, checkpoint_path:str, config_file:str):
             )
   options["cloudFiles.schemaLocation"] = os.path.join(checkpoint_path, "schema")
 
+  if options.get("cloudFiles.schemaHints") and not options.get("cloudFiles.header"):
+    schema_path = options["cloudFiles.schemaHints"]
+    ddl_schema = load_ddl_schema(schema_path)
+    schema_hints = [ f"_c{i} {h.strip().split(' ')[1]}" for i, h in enumerate(ddl_schema.split(","))]
+    options["cloudFiles.schemaHints"] = ", ".join(schema_hints)
+
   return options
 
 def get_destination_options(name:str, checkpoint_path:str, mergeSchema:bool=True):
@@ -80,8 +86,27 @@ def get_destination_options(name:str, checkpoint_path:str, mergeSchema:bool=True
   options["mergeSchema"] = mergeSchema
   return options
 
+def load_schema(filepath:str):
+
+  with open(filepath, "r", encoding="utf-8") as f:
+    schema = yaml.safe_load(f)
+  
+  schema = StructType.fromJson(schema)
+  return schema
+
+def load_ddl_schema(filepath:str):
+
+  with open(filepath, "r", encoding="utf-8") as f:
+    schema = f.read()
+  
+  schema = schema.replace("\n", "")
+  
+  return schema
+
+
 def create_table(database:str, table:str, location:str):
   spark.sql(f"create database if not exists {database}")
+  location = os.path.join(location, table)
   spark.sql(f"""
     create table if not exists {database}.{table}
     using DELTA

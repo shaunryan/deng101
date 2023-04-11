@@ -1,1 +1,1 @@
-id INT,first_name STRING,last_name STRING,email STRING,gender STRING,job_title STRING,amount DOUBLE
+flag STRING,period TIMESTAMP,id INT,first_name STRING,last_name STRING,email STRING,gender STRING,job_title STRING,amount DOUBLE

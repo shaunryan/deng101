@@ -1,0 +1,23 @@
+autoloader:
+  cloudFiles.format: csv # required
+  cloudFiles.schemaLocation: None # required when inferring the schema
+  cloudFiles.inferColumnTypes: true # schema hints can be used either way
+  cloudFiles.schemaHints: ./schema/customer_details.sql
+  cloudFiles.schemaEvolutionMode: addNewColumns # when a schema is not provided. "none" otherwise.  
+
+
+listing:
+  cloudFiles.useIncrementalListing: auto  
+
+formats:
+  csv:
+    inferSchema: false  
+    emptyValue: ""
+    encoding: UTF-8     
+    escape: \  
+    header: "false"      
+    mode: PERMISSIVE    
+    nullValue: "" 
+    quote: '"'            
+    sep: ","
+

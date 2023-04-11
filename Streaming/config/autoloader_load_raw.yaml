@@ -1,0 +1,19 @@
+
+autoloader:
+  cloudFiles.format: csv
+  cloudFiles.schemaEvolutionMode: addNewColumns  
+
+listing:
+  cloudFiles.useIncrementalListing: True 
+
+formats:
+  csv:
+    emptyValue: ""
+    encoding: UTF-8     
+    escape: \  
+    header: true      
+    mode: PERMISSIVE    
+    nullValue: ""
+    quote: \            
+    sep: ","
+
