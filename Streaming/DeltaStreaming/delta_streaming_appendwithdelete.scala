@@ -4,7 +4,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists bronze;
 // MAGIC create table bronze
 // MAGIC (
@@ -14,7 +14,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // MAGIC   CreateDate Timestamp
 // MAGIC )
 // MAGIC USING delta;
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists silver;
 // MAGIC create table silver
 // MAGIC (
@@ -24,7 +24,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // MAGIC   CreateDate Timestamp
 // MAGIC )
 // MAGIC USING delta;
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists gold;
 // MAGIC create table gold
 // MAGIC (
@@ -34,7 +34,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // MAGIC   CreateDate Timestamp
 // MAGIC )
 // MAGIC USING delta;
-// MAGIC 
+// MAGIC
 // MAGIC ALTER TABLE bronze
 // MAGIC SET TBLPROPERTIES (
 // MAGIC   delta.logRetentionDuration = "interval 1 days",
@@ -72,7 +72,7 @@ for (s <- spark.streams.active)
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC select 'bronze' as tableName, * from bronze
 // MAGIC union all
 // MAGIC select 'silver' as tableName, * from silver
@@ -83,9 +83,10 @@ for (s <- spark.streams.active)
 // MAGIC %sql
 // MAGIC -- delete from bronze
 // MAGIC -- where Key = 1
-// MAGIC 
+// MAGIC
 // MAGIC update bronze
 // MAGIC set SurnameName = 'wow'
+// MAGIC
 
 // COMMAND ----------
 
@@ -96,7 +97,7 @@ spark.sql("set spark.databricks.delta.retentionDurationCheck.enabled = true")
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC select 'bronze' as tableName, * from bronze
 // MAGIC union all
 // MAGIC select 'silver' as tableName, * from silver
@@ -116,7 +117,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists bronze;
 // MAGIC drop table if exists silver;
 // MAGIC drop table if exists gold;

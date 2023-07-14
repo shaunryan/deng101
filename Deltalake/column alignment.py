@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC -- create table
 # MAGIC Drop table if exists default.test;
 # MAGIC create table default.test
@@ -12,14 +12,16 @@
 # MAGIC   c boolean
 # MAGIC )
 # MAGIC using delta
+# MAGIC
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Setup
-# MAGIC 
+# MAGIC
 # MAGIC ### Normal Insert
+# MAGIC
 
 # COMMAND ----------
 
@@ -58,8 +60,9 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Insert with Fewer Columns - Works Fine
+# MAGIC
 
 # COMMAND ----------
 
@@ -96,8 +99,9 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Insert with More Columns - this will fail
+# MAGIC
 
 # COMMAND ----------
 
@@ -123,7 +127,7 @@ display(df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Method 1: See merge options below cmd17
 
 # COMMAND ----------
@@ -141,7 +145,7 @@ except Exception as e:
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Merge 2: auto merge
 
 # COMMAND ----------
@@ -168,7 +172,7 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Method 1: sync the set and values clause
 
 # COMMAND ----------
@@ -216,7 +220,7 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Method 2: sync the incoming data frame
 
 # COMMAND ----------
@@ -258,6 +262,7 @@ display(result)
 
 # MAGIC %sql
 # MAGIC select * from default.test
+# MAGIC
 
 # COMMAND ----------
 
@@ -289,7 +294,7 @@ display(df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Method 1: Just Ignore It
 
 # COMMAND ----------
@@ -313,7 +318,7 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Method 2: Auto Merge
 
 # COMMAND ----------
@@ -341,7 +346,7 @@ spark.conf.set("spark.databricks.delta.schema.autoMerge.enabled", False)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### Method 3: Alter Table
 
 # COMMAND ----------
@@ -392,7 +397,7 @@ display(result)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC select * from default.test
 
 # COMMAND ----------

@@ -4,7 +4,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists bronze;
 // MAGIC create table bronze
 // MAGIC (
@@ -14,7 +14,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // MAGIC   CreateDate Timestamp
 // MAGIC )
 // MAGIC USING delta;
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists silver;
 // MAGIC create table silver
 // MAGIC (
@@ -24,7 +24,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // MAGIC   CreateDate Timestamp
 // MAGIC )
 // MAGIC USING delta;
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists gold;
 // MAGIC create table gold
 // MAGIC (
@@ -34,6 +34,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // MAGIC   CreateDate Timestamp
 // MAGIC )
 // MAGIC USING delta;
+// MAGIC
 
 // COMMAND ----------
 
@@ -64,7 +65,7 @@ val activityCountsQuery = spark.readStream
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC select 'bronze' as tableName, * from bronze
 // MAGIC union all
 // MAGIC select 'silver' as tableName, * from silver
@@ -73,10 +74,11 @@ val activityCountsQuery = spark.readStream
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC update bronze
 // MAGIC set SurnameName = 'mergeme'
 // MAGIC where Key = 1
+// MAGIC
 
 // COMMAND ----------
 
@@ -133,7 +135,7 @@ val activityCountsQuery = spark.readStream
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC select 'bronze' as tableName, * from bronze
 // MAGIC union all
 // MAGIC select 'silver' as tableName, * from silver
@@ -150,7 +152,7 @@ dbutils.fs.rm("/delta/devtest/_checkpoints/bronze", true)
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC drop table if exists bronze;
 // MAGIC drop table if exists silver;
 // MAGIC drop table if exists gold;

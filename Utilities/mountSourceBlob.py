@@ -1,22 +1,24 @@
 # Databricks notebook source
-import discover_modules
-discover_modules.go(spark)
+dbutils.secrets.listScopes()
 
 # COMMAND ----------
 
-from utilities import AppConfig
 
-app_config = AppConfig(dbutils, spark)
-app_config.help()
+secret = dbutils.secrets.get(
+  scope = "azure-key-vault-scope", 
+  key = "DATALAKE-BLB-KEY"
+)
+
+dbutils.fs.mount(
+  source = "wasbs://landing@blbdatalakegeneva.blob.core.windows.net",
+  mount_point = "/mnt/landing",
+  extra_configs = {
+    "fs.azure.account.key.blbdatalakegeneva.blob.core.windows.net":secret
+})
 
 # COMMAND ----------
 
-mountname = "datalake"
-try:
-  dbutils.fs.unmount(f"/mnt/{mountname}")
-except:
-  print("datalake isn't mounted")
-
+dbutils.fs.ls("/mnt/landing/data/header_footer")
 
 # COMMAND ----------
 
@@ -33,7 +35,3 @@ dbutils.fs.mount(
   mount_point = f"/mnt/{mountname}",
   extra_configs = extra_configs)
 
-
-# COMMAND ----------
-
-display(dbutils.fs.ls(f"/mnt/{mountname}"))

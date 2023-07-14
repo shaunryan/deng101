@@ -4,6 +4,7 @@
 # MAGIC // val version = dbutils.notebook.getContext.tags("sparkVersion")
 # MAGIC // print(version)
 # MAGIC // assert (version == "10.4.x-scala2.12")
+# MAGIC
 
 # COMMAND ----------
 

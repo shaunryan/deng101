@@ -1,14 +1,14 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Schema Merging
-# MAGIC 
+# MAGIC
 # MAGIC Column Mapping for Renames - https://docs.databricks.com/delta/delta-column-mapping.html
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Clean Up
 
 # COMMAND ----------
@@ -36,7 +36,7 @@ dbutils.fs.rm("/delta/mergeschema", True)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Lay Down a Basic Table
 
 # COMMAND ----------
@@ -69,9 +69,9 @@ display(chk_df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Create A Change Schema
-# MAGIC 
+# MAGIC
 # MAGIC - New ohno column added in the middle
 # MAGIC - Old col removed
 
@@ -97,7 +97,7 @@ display(src_df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Write the Change Schema
 
 # COMMAND ----------
@@ -111,9 +111,9 @@ display(src_df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Check the table
-# MAGIC 
+# MAGIC
 # MAGIC A-ok! New columns and deleted columns are handled fine, reading by files and sql.
 
 # COMMAND ----------
@@ -124,24 +124,25 @@ display(chk_df)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC SELECT * FROM default.TestSchemaMerge
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Alter a Table Column
-# MAGIC 
+# MAGIC
 # MAGIC Without re-writing all the data.
-# MAGIC 
+# MAGIC
 # MAGIC - change ohno to newcol
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC ALTER TABLE default.TestSchemaMerge RENAME COLUMN ohno TO newcol;
+# MAGIC
 
 # COMMAND ----------
 
@@ -156,16 +157,16 @@ display(chk_df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Rename Using Create or Replace
-# MAGIC 
+# MAGIC
 # MAGIC - CREATE OR REPLACE - succeeds but breaks the table. Even though the data is there it cannot be retrieved
 # MAGIC - DROP AND CREATE - the drop succeeds but the create fails because the column names are different
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC Create or replace table default.TestSchemaMerge (
 # MAGIC some STRING,
 # MAGIC col STRING,
@@ -193,7 +194,7 @@ display(chk_df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC The data is still there!
 
 # COMMAND ----------
@@ -203,7 +204,7 @@ display(dbutils.fs.ls("/delta/mergeschema/"))
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Can We Fix It? NO!
 
 # COMMAND ----------
@@ -214,7 +215,7 @@ display(dbutils.fs.ls("/delta/mergeschema/"))
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC Create or replace table default.TestSchemaMerge (
 # MAGIC some STRING,
 # MAGIC col STRING,
@@ -257,11 +258,11 @@ display(dbutils.fs.ls("/delta/mergeschema/"))
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Show History
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC describe history default.TestSchemaMerge

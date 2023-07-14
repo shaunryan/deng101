@@ -1,17 +1,17 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Best Practice
-# MAGIC 
+# MAGIC
 # MAGIC No guarantee of order of subexpressions
 # MAGIC e.g
-# MAGIC 
+# MAGIC
 # MAGIC ```
 # MAGIC spark.sql("SELECT s FROM test1 WHERE s IS NOT NULL AND strlen(s) > 1")
 # MAGIC ```
-# MAGIC 
+# MAGIC
 # MAGIC There is no guarantee that strlen will recieve not null. 
-# MAGIC 
+# MAGIC
 # MAGIC Therefore:
 # MAGIC - UDF's should be null aware with null checks
 # MAGIC - Use if or case expression to null before invoking the UDF
@@ -40,14 +40,16 @@ display(df)
 
 # DBTITLE 1,Python Dataframe UDF
 # MAGIC %python
-# MAGIC 
+# MAGIC
 # MAGIC from pyspark.sql.functions import udf
 # MAGIC from pyspark.sql.types import LongType
-# MAGIC 
+# MAGIC
 # MAGIC cubed_udf = udf(cubed, LongType())
-# MAGIC 
+# MAGIC
 # MAGIC df = spark.table("udf_test")
 # MAGIC display(df.select("id", cubed_udf("id").alias("id_cubed")))
+# MAGIC
+# MAGIC
 
 # COMMAND ----------
 
@@ -64,13 +66,13 @@ display(df.select("id", squared_udf("id").alias("id_squared")))
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Speeding up Pyspark UDFS with Pandas
-# MAGIC 
+# MAGIC
 # MAGIC There's 2 catetgories:
-# MAGIC 
+# MAGIC
 # MAGIC ### Pandas UDFs
-# MAGIC 
+# MAGIC
 # MAGIC Pandas UDF type is inferred from hints in Pandas UDF's such as:
 # MAGIC ```
 # MAGIC pandas.series
@@ -78,7 +80,7 @@ display(df.select("id", squared_udf("id").alias("id_squared")))
 # MAGIC Tuple
 # MAGIC Iterator
 # MAGIC ```
-# MAGIC 
+# MAGIC
 # MAGIC Previously each Pandas UDF type had to be defined and specified on the signiture. Currently supported inputs and outputs are:
 # MAGIC ```
 # MAGIC Series => Series
@@ -86,9 +88,9 @@ display(df.select("id", squared_udf("id").alias("id_squared")))
 # MAGIC Iterator of Multiple Series => Iterator of Series
 # MAGIC Series => Scalar
 # MAGIC ```
-# MAGIC 
+# MAGIC
 # MAGIC ### Pandas Function APIs
-# MAGIC 
+# MAGIC
 # MAGIC Directly apply a local python function to a pyspark dataframe where both input and output are Pandas instances. Spark 3.0 supported Pandas Function API's are:
 # MAGIC ```
 # MAGIC grouped map
@@ -115,7 +117,7 @@ cubed_udf = pandas_udf(cubed, returnType=LongType())
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ##### Just a pandas function
 
 # COMMAND ----------
@@ -129,7 +131,7 @@ print(cubed(x))
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ##### A spark pandas function
 
 # COMMAND ----------
