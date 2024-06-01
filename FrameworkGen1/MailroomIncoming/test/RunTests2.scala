@@ -10,27 +10,26 @@ val environment = dbutils.widgets.get("environment")
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC ## TestStage.ValidContractLoad
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC 
-// MAGIC import org.apache.spark.sql.functions._
-// MAGIC 
-// MAGIC var test = "Stage Row Counts"
-// MAGIC 
-// MAGIC var initialLoadTeststage = "Initial Load 2"
-// MAGIC var initialLoadAffiliateId = "DATASCIENCE-UNIT-TEST-InitialLoad"
-// MAGIC var initialLoadTest = "\"AffiliateID\":\"DATASCIENCE-UNIT-TEST-InitialLoad\""
-// MAGIC var initialLoadRowCount = "495"
-// MAGIC 
-// MAGIC var intradayLoadTeststage = "Intraday Load"
-// MAGIC var intradayLoadAffiliateId = "DATASCIENCE-UNIT-TEST-IntradayLoad"
-// MAGIC var intradayLoadTest = "\"AffiliateID\":\"DATASCIENCE-UNIT-TEST-IntradayLoad\""
-// MAGIC var intradayLoadRowCount = "205"
-// MAGIC val pipeline = "mailroomIngest"
+
+import org.apache.spark.sql.functions._
+
+var test = "Stage Row Counts"
+
+var initialLoadTeststage = "Initial Load 2"
+var initialLoadAffiliateId = "DATASCIENCE-UNIT-TEST-InitialLoad"
+var initialLoadTest = "\"AffiliateID\":\"DATASCIENCE-UNIT-TEST-InitialLoad\""
+var initialLoadRowCount = "495"
+
+var intradayLoadTeststage = "Intraday Load"
+var intradayLoadAffiliateId = "DATASCIENCE-UNIT-TEST-IntradayLoad"
+var intradayLoadTest = "\"AffiliateID\":\"DATASCIENCE-UNIT-TEST-IntradayLoad\""
+var intradayLoadRowCount = "205"
+val pipeline = "mailroomIngest"
 
 // COMMAND ----------
 

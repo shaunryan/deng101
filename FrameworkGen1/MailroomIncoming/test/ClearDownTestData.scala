@@ -1,6 +1,6 @@
 // Databricks notebook source
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC ## Clear Down Test Data
 
 // COMMAND ----------
@@ -13,11 +13,10 @@ ConnectToDataLake()
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC val root = getDataLakeStorageAccount
-// MAGIC 
-// MAGIC //DO NOT CHANGE THESE PATHS WITHOUT CODE REVIEW BEFORE EXECUTE
-// MAGIC dbutils.fs.rm(s"${root}/raw/mailroom/data/schemaversion0/1900/01", true)
+val root = getDataLakeStorageAccount
+
+//DO NOT CHANGE THESE PATHS WITHOUT CODE REVIEW BEFORE EXECUTE
+dbutils.fs.rm(s"${root}/raw/mailroom/data/schemaversion0/1900/01", true)
 
 // COMMAND ----------
 
@@ -54,5 +53,4 @@ spark.sql("set spark.databricks.delta.retentionDurationCheck.enabled = true")
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC dbutils.notebook.exit(s"success")
+dbutils.notebook.exit(s"success")

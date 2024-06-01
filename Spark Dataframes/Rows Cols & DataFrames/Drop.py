@@ -1,10 +1,9 @@
 # Databricks notebook source
-# MAGIC %python
-# MAGIC 
-# MAGIC df = spark.read.format("json") \
-# MAGIC .load("/databricks-datasets/definitive-guide/data/flight-data/json/2015-summary.json")
-# MAGIC 
-# MAGIC display(df)
+
+df = spark.read.format("json") \
+.load("/databricks-datasets/definitive-guide/data/flight-data/json/2015-summary.json")
+
+display(df)
 
 # COMMAND ----------
 

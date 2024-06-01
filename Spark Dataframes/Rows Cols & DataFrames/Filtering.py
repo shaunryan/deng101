@@ -1,16 +1,15 @@
 # Databricks notebook source
 # MAGIC %scala
-# MAGIC 
+# MAGIC
 # MAGIC val df = spark.read.format("json")
 # MAGIC .load("/databricks-datasets/definitive-guide/data/flight-data/json/2015-summary.json")
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC df = spark.read.format("json") \
-# MAGIC .load("/databricks-datasets/definitive-guide/data/flight-data/json/2015-summary.json")
-# MAGIC display(df)
+
+df = spark.read.format("json") \
+.load("/databricks-datasets/definitive-guide/data/flight-data/json/2015-summary.json")
+display(df)
 
 # COMMAND ----------
 
@@ -30,11 +29,11 @@ df.where("count < 2").show(2)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC In Spark 3.0, you can use `joinedDF.explain('mode')` to display a readable and digestible output. 
-# MAGIC 
+# MAGIC
 # MAGIC The modes include:
-# MAGIC 
+# MAGIC
 # MAGIC - simple
 # MAGIC - extended
 # MAGIC - codegen

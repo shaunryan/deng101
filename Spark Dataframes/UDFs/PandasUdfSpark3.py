@@ -39,17 +39,14 @@ display(df)
 # COMMAND ----------
 
 # DBTITLE 1,Python Dataframe UDF
-# MAGIC %python
-# MAGIC
-# MAGIC from pyspark.sql.functions import udf
-# MAGIC from pyspark.sql.types import LongType
-# MAGIC
-# MAGIC cubed_udf = udf(cubed, LongType())
-# MAGIC
-# MAGIC df = spark.table("udf_test")
-# MAGIC display(df.select("id", cubed_udf("id").alias("id_cubed")))
-# MAGIC
-# MAGIC
+
+from pyspark.sql.functions import udf
+from pyspark.sql.types import LongType
+
+cubed_udf = udf(cubed, LongType())
+
+df = spark.table("udf_test")
+display(df.select("id", cubed_udf("id").alias("id_cubed")))
 
 # COMMAND ----------
 

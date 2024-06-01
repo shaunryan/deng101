@@ -1,40 +1,38 @@
 -- Databricks notebook source
--- MAGIC %sql
--- MAGIC 
--- MAGIC optimize MailroomIncoming.iautoswitchoptoutrequested;
--- MAGIC optimize MailroomIncoming.icancelledswitchresolutionfound;
--- MAGIC optimize MailroomIncoming.icoolingoffperiodexpired;
--- MAGIC optimize MailroomIncoming.ilikelysavingsopportunityfound;
--- MAGIC optimize MailroomIncoming.imanualenergyswitchrequested;
--- MAGIC optimize MailroomIncoming.isavingsopportunityrejected;
--- MAGIC optimize MailroomIncoming.isupplierrequestedswitchcancelled;
--- MAGIC optimize MailroomIncoming.iswitchcompleted;
--- MAGIC optimize MailroomIncoming.iswitchcompletionunconfirmed;
--- MAGIC optimize MailroomIncoming.iswitchdetailssenttosupplier;
--- MAGIC optimize MailroomIncoming.iswitchexpired;
--- MAGIC optimize MailroomIncoming.iswitchstarted;
--- MAGIC optimize MailroomIncoming.iuserrequestedswitchcancelfailed;
--- MAGIC optimize MailroomIncoming.iuserrequestedswitchcancellation;
--- MAGIC optimize MailroomIncoming.iuserrequestedswitchcancelled;
--- MAGIC optimize MailroomIncoming.preferences_iupdated;
+
+optimize MailroomIncoming.iautoswitchoptoutrequested;
+optimize MailroomIncoming.icancelledswitchresolutionfound;
+optimize MailroomIncoming.icoolingoffperiodexpired;
+optimize MailroomIncoming.ilikelysavingsopportunityfound;
+optimize MailroomIncoming.imanualenergyswitchrequested;
+optimize MailroomIncoming.isavingsopportunityrejected;
+optimize MailroomIncoming.isupplierrequestedswitchcancelled;
+optimize MailroomIncoming.iswitchcompleted;
+optimize MailroomIncoming.iswitchcompletionunconfirmed;
+optimize MailroomIncoming.iswitchdetailssenttosupplier;
+optimize MailroomIncoming.iswitchexpired;
+optimize MailroomIncoming.iswitchstarted;
+optimize MailroomIncoming.iuserrequestedswitchcancelfailed;
+optimize MailroomIncoming.iuserrequestedswitchcancellation;
+optimize MailroomIncoming.iuserrequestedswitchcancelled;
+optimize MailroomIncoming.preferences_iupdated;
 
 -- COMMAND ----------
 
--- MAGIC %sql
--- MAGIC 
--- MAGIC vacuum MailroomIncoming.iautoswitchoptoutrequested;
--- MAGIC vacuum MailroomIncoming.icancelledswitchresolutionfound;
--- MAGIC vacuum MailroomIncoming.icoolingoffperiodexpired;
--- MAGIC vacuum MailroomIncoming.ilikelysavingsopportunityfound;
--- MAGIC vacuum MailroomIncoming.imanualenergyswitchrequested;
--- MAGIC vacuum MailroomIncoming.isavingsopportunityrejected;
--- MAGIC vacuum MailroomIncoming.isupplierrequestedswitchcancelled;
--- MAGIC vacuum MailroomIncoming.iswitchcompleted;
--- MAGIC vacuum MailroomIncoming.iswitchcompletionunconfirmed;
--- MAGIC vacuum MailroomIncoming.iswitchdetailssenttosupplier;
--- MAGIC vacuum MailroomIncoming.iswitchexpired;
--- MAGIC vacuum MailroomIncoming.iswitchstarted;
--- MAGIC vacuum MailroomIncoming.iuserrequestedswitchcancelfailed;
--- MAGIC vacuum MailroomIncoming.iuserrequestedswitchcancellation;
--- MAGIC vacuum MailroomIncoming.iuserrequestedswitchcancelled;
--- MAGIC vacuum MailroomIncoming.preferences_iupdated;
+
+vacuum MailroomIncoming.iautoswitchoptoutrequested;
+vacuum MailroomIncoming.icancelledswitchresolutionfound;
+vacuum MailroomIncoming.icoolingoffperiodexpired;
+vacuum MailroomIncoming.ilikelysavingsopportunityfound;
+vacuum MailroomIncoming.imanualenergyswitchrequested;
+vacuum MailroomIncoming.isavingsopportunityrejected;
+vacuum MailroomIncoming.isupplierrequestedswitchcancelled;
+vacuum MailroomIncoming.iswitchcompleted;
+vacuum MailroomIncoming.iswitchcompletionunconfirmed;
+vacuum MailroomIncoming.iswitchdetailssenttosupplier;
+vacuum MailroomIncoming.iswitchexpired;
+vacuum MailroomIncoming.iswitchstarted;
+vacuum MailroomIncoming.iuserrequestedswitchcancelfailed;
+vacuum MailroomIncoming.iuserrequestedswitchcancellation;
+vacuum MailroomIncoming.iuserrequestedswitchcancelled;
+vacuum MailroomIncoming.preferences_iupdated;

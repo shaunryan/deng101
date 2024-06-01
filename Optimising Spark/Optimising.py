@@ -1,70 +1,68 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Displaying Configurations
 
 # COMMAND ----------
 
 # MAGIC %scala
-# MAGIC 
+# MAGIC
 # MAGIC import org.apache.spark.sql.SparkSession
-# MAGIC 
+# MAGIC
 # MAGIC def printConfigs(session: SparkSession) = {
 # MAGIC   
 # MAGIC   val mconf = session.conf.getAll
-# MAGIC 
+# MAGIC
 # MAGIC   val cells = mconf.keySet.map( k => s"$k -> ${mconf(k)}")
 # MAGIC   print(cells.mkString("\n"))
 # MAGIC   
 # MAGIC }
-# MAGIC 
+# MAGIC
 # MAGIC printConfigs(spark)
 
 # COMMAND ----------
 
 # MAGIC %scala
-# MAGIC 
+# MAGIC
 # MAGIC display(spark.sql("SET -v").select("key", "value"))
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC display(spark.sql("SET -v").select("key", "value"))
+
+display(spark.sql("SET -v").select("key", "value"))
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Setting or Modifying Existing
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC 
-# MAGIC # scala and python!
-# MAGIC print(spark.conf.isModifiable("spark.sql.shuffle.partitions"))
-# MAGIC print(spark.conf.get("spark.sql.shuffle.partitions"))
-# MAGIC spark.conf.set("spark.sql.shuffle.partitions", 5)
-# MAGIC print(spark.conf.get("spark.sql.shuffle.partitions"))
-# MAGIC spark.conf.set("spark.sql.shuffle.partitions", 200)
+
+# scala and python!
+print(spark.conf.isModifiable("spark.sql.shuffle.partitions"))
+print(spark.conf.get("spark.sql.shuffle.partitions"))
+spark.conf.set("spark.sql.shuffle.partitions", 5)
+print(spark.conf.get("spark.sql.shuffle.partitions"))
+spark.conf.set("spark.sql.shuffle.partitions", 200)
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC # Tuning
-# MAGIC 
+# MAGIC
 # MAGIC - https://spark.apache.org/docs/latest/configuration.html#dynamic-allocation
 # MAGIC - https://towardsdatascience.com/how-does-facebook-tune-apache-spark-for-large-scale-workloads-3238ddda0830
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ### spark.dynamicAllocation
-# MAGIC 
-# MAGIC 
+# MAGIC
+# MAGIC
 # MAGIC - By default `spark.dynamicAllocation.enabled` is set to false. 
 # MAGIC - When enabled with the settings shown here, the Spark driver will request that the cluster manager create two executors to start with, as a minimum (`spark.dynamicAllocation.minExecutors`). 
 # MAGIC - As the task queue backlog increases, new executors will be requested each time the backlog timeout (`spark.dynamicAllocation.schedulerBacklogTimeout`) is exceeded. 
@@ -90,7 +88,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC ## Memory Configuration
 
 # COMMAND ----------

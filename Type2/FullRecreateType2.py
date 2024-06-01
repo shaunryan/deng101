@@ -1,37 +1,36 @@
 # Databricks notebook source
-# MAGIC %python
-# MAGIC from pyspark.sql import Row
-# MAGIC from pyspark.sql.types import StructField, StructType, StringType, LongType, TimestampType
-# MAGIC from pyspark.sql.functions import to_timestamp, col, lit
-# MAGIC from uuid import uuid4
-# MAGIC
-# MAGIC myManualSchema = StructType([
-# MAGIC   StructField("Id", StringType(), True),
-# MAGIC   StructField("Firstname", StringType(), True),
-# MAGIC   StructField("Surname", StringType(), True),
-# MAGIC   StructField("CreatedDate", StringType(), False)
-# MAGIC ])
-# MAGIC
-# MAGIC shaunId = str(uuid4())
-# MAGIC finelyId = str(uuid4())
-# MAGIC sarahId = str(uuid4())
-# MAGIC
-# MAGIC myRows = [Row(shaunId,  "Shaun", "Ryan",  "2021-10-28 00:00:00"), 
-# MAGIC           Row(shaunId,  "Shaun", "Ryan",  "2021-10-29 00:00:00"), 
-# MAGIC           Row(shaunId,  "Shaun", "Ryan",  "2021-10-30 00:00:00"), 
-# MAGIC           Row(shaunId,  "Shaun", "Ryan",  "2021-10-31 00:00:00"),
-# MAGIC           Row(finelyId, "Finley", "Ryan", "2021-10-28 00:00:00"), 
-# MAGIC           Row(finelyId, "Finley", "Ryan", "2021-10-29 00:00:00"), 
-# MAGIC           Row(sarahId,  "Sarah", "Ryan",  "2021-11-01 00:00:00"), 
-# MAGIC           Row(sarahId,  "Sarah", "Ryan",  "2021-11-02 00:00:00")]
-# MAGIC
-# MAGIC myDf = spark.createDataFrame(myRows, myManualSchema)
-# MAGIC myDf = myDf.withColumn("CreatedDate", to_timestamp("CreatedDate", "yyyy-MM-dd HH:mm:ss"))
-# MAGIC
-# MAGIC myDf.createOrReplaceTempView("Type4")
-# MAGIC
-# MAGIC myDf = spark.sql("select * from Type4")
-# MAGIC display(myDf)
+from pyspark.sql import Row
+from pyspark.sql.types import StructField, StructType, StringType, LongType, TimestampType
+from pyspark.sql.functions import to_timestamp, col, lit
+from uuid import uuid4
+
+myManualSchema = StructType([
+  StructField("Id", StringType(), True),
+  StructField("Firstname", StringType(), True),
+  StructField("Surname", StringType(), True),
+  StructField("CreatedDate", StringType(), False)
+])
+
+shaunId = str(uuid4())
+finelyId = str(uuid4())
+sarahId = str(uuid4())
+
+myRows = [Row(shaunId,  "Shaun", "Ryan",  "2021-10-28 00:00:00"), 
+          Row(shaunId,  "Shaun", "Ryan",  "2021-10-29 00:00:00"), 
+          Row(shaunId,  "Shaun", "Ryan",  "2021-10-30 00:00:00"), 
+          Row(shaunId,  "Shaun", "Ryan",  "2021-10-31 00:00:00"),
+          Row(finelyId, "Finley", "Ryan", "2021-10-28 00:00:00"), 
+          Row(finelyId, "Finley", "Ryan", "2021-10-29 00:00:00"), 
+          Row(sarahId,  "Sarah", "Ryan",  "2021-11-01 00:00:00"), 
+          Row(sarahId,  "Sarah", "Ryan",  "2021-11-02 00:00:00")]
+
+myDf = spark.createDataFrame(myRows, myManualSchema)
+myDf = myDf.withColumn("CreatedDate", to_timestamp("CreatedDate", "yyyy-MM-dd HH:mm:ss"))
+
+myDf.createOrReplaceTempView("Type4")
+
+myDf = spark.sql("select * from Type4")
+display(myDf)
 
 # COMMAND ----------
 

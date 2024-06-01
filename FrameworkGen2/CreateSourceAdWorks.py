@@ -1,21 +1,18 @@
 # Databricks notebook source
-# MAGIC %python
-# MAGIC import discover_modules
-# MAGIC discover_modules.go(spark)
+import discover_modules
+discover_modules.go(spark)
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC from utilities import AppConfig
-# MAGIC 
-# MAGIC app_config = AppConfig(dbutils, spark)
-# MAGIC app_config.help()
+from utilities import AppConfig
+
+app_config = AppConfig(dbutils, spark)
+app_config.help()
 
 # COMMAND ----------
 
-# MAGIC %python
-# MAGIC app_config.connect_storage()
-# MAGIC display(dbutils.fs.ls(app_config.get_storage_account()))
+app_config.connect_storage()
+display(dbutils.fs.ls(app_config.get_storage_account()))
 
 # COMMAND ----------
 
@@ -65,7 +62,7 @@ for t in tables:
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC 
+# MAGIC
 # MAGIC select * from contosoretaildw.factsales
 # MAGIC -- product
 # MAGIC -- promotion

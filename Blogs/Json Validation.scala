@@ -1,34 +1,33 @@
 // Databricks notebook source
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC First of all lets create some json data. Note this example for loading line by line json! That means each text line has an individual json document on it. You could use the same approach with some tweaks to a multiline document.
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC 
-// MAGIC val data = """
-// MAGIC {"id": 1, "first_name": "Idaline", "last_name": "Laurenson", "email": "ilaurenson0@ifeng.com","gender": "Female","movies": ["Walk All Over Me","Master and Commander: The Far Side of the World","Show Me Love","Touch of Evil"],"job_title": "Librarian","rating": 4.9,"rated_on": "2019-03-16T01:20:04Z"}
-// MAGIC {"id": 2,"first_name": "Deva","last_name": "Paulack","email": "dpaulack1@altervista.org","gender": "Female","movies": ["Batman/Superman Movie, The","Amazing Panda Adventure, The"],"job_title": "Recruiter","rating": 6.8,"rated_on": "2019-11-03T16:14:14Z"}
-// MAGIC {"id": 3,"first_name": "Corinna","last_name": "Yesenev","email": "cyesenev2@hubpages.com","gender": "Female","movies": ["Patrice O'Neal: Elephant in the Room","Three Little Words","Capitalism: A Love Story","Flying Tigers"],"job_title": "Tax Accountant","rating": 6.7,"rated_on": "2020-01-30T13:30:04Z"}
-// MAGIC {"id": 4,"first_name": "Ludwig","last_name": "Coogan","email": "lcoogan3@cornell.edu","gender": "Male","movies": ["Cry, The (Grido, Il)","Client, The","Vai~E~Vem","Prince of Egypt, The","Merry Widow, The"],"job_title": "Assistant Media Planner","rating": 1.9,"rated_on": "2019-03-13T01:32:55Z"}
-// MAGIC {"id": 5,"first_name": "Robbie","last_name": "Ginnane","email": "rginnane4@wp.com","gender": "Male","movies": ["Three Men and a Cradle (3 hommes et un couffin)","American Violet","Goin' South","Crimson Petal and the White, The","In Tranzit"],"job_title": "Nurse Practicioner","rating": 1.7,"rated_on": "2020-02-26T18:24:35Z"}
-// MAGIC {"id": 6,"first_name": "Jaquenette","last_name": "Durbridge","email": "jdurbridge5@tuttocitta.it","gender": "Female","movies": ["Calendar","Brave New World"],"job_title": "Quality Control Specialist","rating": 2.6,"rated_on": "2019-08-15T18:25:01Z"}
-// MAGIC {"id": 7,"first_name": "Wolf","last_name": "Bernhardt","email": "wbernhardt6@cam.ac.uk","gender": "Male","movies": ["Dr. Giggles","Ulzana's Raid"],"job_title": "Paralegal","rating": 7.6,"rated_on": "2019-09-25T12:03:55Z"}
-// MAGIC {"id": 8,"first_name": "Allyn","last_name": "Eykel","email": "aeykel7@google.ru","gender": "Female","movies": ["Wild Guitar","Letter From Death Row, A","John Dies at the End","Joker"],"job_title": "Administrative Officer","rating": 5.0,"rated_on": "2019-07-08T00:42:04Z"}
-// MAGIC {"id": 9,"first_name": "Dennie","last_name": "Trevers","gender": "Male","movies": ["Watermark","Mondo Hollywood","Bicycle, Spoon, Apple (Bicicleta, cullera, poma)"],"job_title": "Safety Technician II","rating": 7.3,"rated_on": "2019-09-11T11:49:55Z"}
-// MAGIC {"id": 10,"first_name": "Shae","last_name": "Bengal","email": "sbengal9@guardian.co.uk","gender": "Male","movies": null,"job_title": "Structural Analysis Engineer","rating": 8.2,"rated_on": "2019-04-25T17:21:26Z"}
-// MAGIC """
-// MAGIC 
-// MAGIC val path = "/FileStore/ironclad.json"
-// MAGIC 
-// MAGIC dbutils.fs.rm(path) 
-// MAGIC dbutils.fs.put(path, data) 
+
+val data = """
+{"id": 1, "first_name": "Idaline", "last_name": "Laurenson", "email": "ilaurenson0@ifeng.com","gender": "Female","movies": ["Walk All Over Me","Master and Commander: The Far Side of the World","Show Me Love","Touch of Evil"],"job_title": "Librarian","rating": 4.9,"rated_on": "2019-03-16T01:20:04Z"}
+{"id": 2,"first_name": "Deva","last_name": "Paulack","email": "dpaulack1@altervista.org","gender": "Female","movies": ["Batman/Superman Movie, The","Amazing Panda Adventure, The"],"job_title": "Recruiter","rating": 6.8,"rated_on": "2019-11-03T16:14:14Z"}
+{"id": 3,"first_name": "Corinna","last_name": "Yesenev","email": "cyesenev2@hubpages.com","gender": "Female","movies": ["Patrice O'Neal: Elephant in the Room","Three Little Words","Capitalism: A Love Story","Flying Tigers"],"job_title": "Tax Accountant","rating": 6.7,"rated_on": "2020-01-30T13:30:04Z"}
+{"id": 4,"first_name": "Ludwig","last_name": "Coogan","email": "lcoogan3@cornell.edu","gender": "Male","movies": ["Cry, The (Grido, Il)","Client, The","Vai~E~Vem","Prince of Egypt, The","Merry Widow, The"],"job_title": "Assistant Media Planner","rating": 1.9,"rated_on": "2019-03-13T01:32:55Z"}
+{"id": 5,"first_name": "Robbie","last_name": "Ginnane","email": "rginnane4@wp.com","gender": "Male","movies": ["Three Men and a Cradle (3 hommes et un couffin)","American Violet","Goin' South","Crimson Petal and the White, The","In Tranzit"],"job_title": "Nurse Practicioner","rating": 1.7,"rated_on": "2020-02-26T18:24:35Z"}
+{"id": 6,"first_name": "Jaquenette","last_name": "Durbridge","email": "jdurbridge5@tuttocitta.it","gender": "Female","movies": ["Calendar","Brave New World"],"job_title": "Quality Control Specialist","rating": 2.6,"rated_on": "2019-08-15T18:25:01Z"}
+{"id": 7,"first_name": "Wolf","last_name": "Bernhardt","email": "wbernhardt6@cam.ac.uk","gender": "Male","movies": ["Dr. Giggles","Ulzana's Raid"],"job_title": "Paralegal","rating": 7.6,"rated_on": "2019-09-25T12:03:55Z"}
+{"id": 8,"first_name": "Allyn","last_name": "Eykel","email": "aeykel7@google.ru","gender": "Female","movies": ["Wild Guitar","Letter From Death Row, A","John Dies at the End","Joker"],"job_title": "Administrative Officer","rating": 5.0,"rated_on": "2019-07-08T00:42:04Z"}
+{"id": 9,"first_name": "Dennie","last_name": "Trevers","gender": "Male","movies": ["Watermark","Mondo Hollywood","Bicycle, Spoon, Apple (Bicicleta, cullera, poma)"],"job_title": "Safety Technician II","rating": 7.3,"rated_on": "2019-09-11T11:49:55Z"}
+{"id": 10,"first_name": "Shae","last_name": "Bengal","email": "sbengal9@guardian.co.uk","gender": "Male","movies": null,"job_title": "Structural Analysis Engineer","rating": 8.2,"rated_on": "2019-04-25T17:21:26Z"}
+"""
+
+val path = "/FileStore/ironclad.json"
+
+dbutils.fs.rm(path) 
+dbutils.fs.put(path, data)
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC Load the data using a simple json load to review it. 
 
 // COMMAND ----------
@@ -40,22 +39,22 @@ display(df)
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC The problem with using `val df = spark.read.json(path)`:
-// MAGIC 
+// MAGIC
 // MAGIC 1. Any post validation will very specfically need to be coded into columns that are created
 // MAGIC 2. A common (old) method is to use tight schema coupling which protects the data but leads to micro-manging fields and data load failures
 // MAGIC 3. Stemming from 2 the workflow required to easily query the invalid data, fix it in-situ and reload it is often overlooked; if you can't get your unstrctured data into to a place to analyse it's really difficult to fix it. Whilst fixing at source should be the aim; operational needs require pragmatism in the short term.
 // MAGIC 4. Handling mixed formats requires a different methods e.g. columns strcutures holding json strings.
 // MAGIC 5. There is a very rich [json validation schema standard](https://json-schema.org/), the spark json read doesn't give you the opportunity to use it.
-// MAGIC 
+// MAGIC
 // MAGIC Here is an alternative approach. There are others!
-// MAGIC 
+// MAGIC
 // MAGIC 1. Load the unstructured json data as a single column of text.
 // MAGIC 2. Validate the json using json schema, tag the row with a validation flag and exception message.
 // MAGIC 3. Use a spark schema matching the json schema to shred the data into the required format using a short generic expression.
 // MAGIC 4. Load the data into a deltalake table with schema evolution turned on.
-// MAGIC 
+// MAGIC
 // MAGIC Benefits:
 // MAGIC  - Data always lands no matter what, when it's invalid it's flagged and reported. Importantly however it's the in table, we can query it, fix it and just re-run an idemptotant job (because you've built your jobs with idempotance haven't you!).
 // MAGIC  - Data is validated using json schema which has far more robust data checking options than a deltalake schema.
@@ -67,29 +66,29 @@ display(df)
 // MAGIC Downsides:
 // MAGIC  - Json validating is slower. But! validating your data is slower. It is distributed though because in this example it's implemented as UDF. The thing is if you need clean data you need to validate it in easily maintainable way! The data at raw is slow anyway because we Deng's haven't done our magic yet; and the best place to validate and jail raw data is at the front door! Rather unpicking a mess further upstream that may have actually done some damage.
 // MAGIC  
-// MAGIC 
+// MAGIC
 // MAGIC  
 
 // COMMAND ----------
 
 // MAGIC %md 
-// MAGIC 
+// MAGIC
 // MAGIC # Preparation
-// MAGIC 
+// MAGIC
 // MAGIC First of all we need to create:
-// MAGIC 
+// MAGIC
 // MAGIC 1. Spark Schema file that is used for auto shredding the raw data
 // MAGIC 2. JSON schema file that is used for validating raw data
 // MAGIC 3. Add JSON validation library to the cluster that can use the json schema file to validate the json
-// MAGIC 
+// MAGIC
 // MAGIC I wouldn't normally do this is a notebook. User better json tools for this. I've simply done it here for the convenience of demonstration and brevity of write up. An observation here is that it's a shame there is no easy way currently to convert a json schema to a spark schema. Something I may write one day.
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 1. Create Spark Schema File
-// MAGIC 
+// MAGIC
 // MAGIC I'm using a trick to define it from the inferred load. This is much easier. In real life be sure to review it though to make sure the data types are what you want, add descriptions and make sure you haven't dropped any attributes that weren't serialized because they are optional or null.
 
 // COMMAND ----------
@@ -105,9 +104,9 @@ dbutils.fs.put(schemapath, sparkSchema)
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 2. Create Json Schema File
-// MAGIC 
+// MAGIC
 // MAGIC It would be nice to generate this from the spark schema we already defined. Something to write one day.
 
 // COMMAND ----------
@@ -192,7 +191,7 @@ dbutils.fs.put(jsonSchemaPath, jsonSchema)
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 3. Create the Ingest Schema
 
 // COMMAND ----------
@@ -218,24 +217,24 @@ dbutils.fs.put(ingestSchemaPath, ingestSchema)
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### Operational Code - Load & Validate the Data!
-// MAGIC 
+// MAGIC
 // MAGIC Now that dev workflow is done we can create an operational pipeline does the following:
-// MAGIC 
+// MAGIC
 // MAGIC 1. Create the JSON Schema Validation UDF
 // MAGIC 2. Load our previously created JSON & Spark Schemas from disk
 // MAGIC 3. Load validate and shred the data into a dataframe
 // MAGIC 4. Write the data to a delta table
-// MAGIC 
+// MAGIC
 // MAGIC **Note:** There's still a few things in this example that are literally declared just to keep it simple and on topic. A real operational pipeline would have bit more configuration injection than what I'm showing here and also logging, alerting and operational stats dashboarding
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 1. Create the JSON Schema Validation UDF
-// MAGIC 
+// MAGIC
 // MAGIC This function can run on a distributed spark data frame. 
 // MAGIC It takes a JSON string and a JSON shema string and validates the JSON using the schema.
 // MAGIC If the JSON is valid and empty validation string is returned. If the JSON fails the validation
@@ -271,13 +270,13 @@ val validateJson = udf( udfValidateJson(_: String, _:String): String)
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 2. Load the JSON & Spark Schema
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC Just a quick review of the schema files we're using:
 
 // COMMAND ----------
@@ -336,7 +335,7 @@ object ReadFile{
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 2. Load, JSON Validate & Shred the JSON into a Spark Struct
 
 // COMMAND ----------
@@ -400,33 +399,32 @@ val dfp = df
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### 4. Insert the Data Into A Delta Table
 
 // COMMAND ----------
 
-// MAGIC %scala
-// MAGIC 
-// MAGIC val tableName = "ironclad"
-// MAGIC val tableSchema = "default"
-// MAGIC // when wr the data to delta table, create if exist otherwise append
-// MAGIC val mode = if (
-// MAGIC   spark.sql(s"SHOW TABLES IN $tableSchema")
-// MAGIC   .where(s"tableName = '$tableName'")
-// MAGIC   .count == 0L) "errorifexists" else "append"
-// MAGIC 
-// MAGIC 
-// MAGIC dfp.write.format("delta")
-// MAGIC   .option("mergeSchema", "true")
-// MAGIC   .mode(mode)
-// MAGIC   .saveAsTable(s"$tableSchema.$tableName")
+
+val tableName = "ironclad"
+val tableSchema = "default"
+// when wr the data to delta table, create if exist otherwise append
+val mode = if (
+  spark.sql(s"SHOW TABLES IN $tableSchema")
+  .where(s"tableName = '$tableName'")
+  .count == 0L) "errorifexists" else "append"
+
+
+dfp.write.format("delta")
+  .option("mergeSchema", "true")
+  .mode(mode)
+  .saveAsTable(s"$tableSchema.$tableName")
 
 // COMMAND ----------
 
 // MAGIC %md
-// MAGIC 
+// MAGIC
 // MAGIC #### Explore the Data
-// MAGIC 
+// MAGIC
 // MAGIC Now we've loaded our data lets check it out using SQL.
 // MAGIC In an operational setups these loads stats would be alerted to an ops dashboard
 
@@ -448,7 +446,7 @@ val dfp = df
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC SELECT _id, shreddedData
 // MAGIC FROM default.ironclad
 // MAGIC WHERE _isValid
@@ -461,7 +459,7 @@ val dfp = df
 // COMMAND ----------
 
 // MAGIC %sql
-// MAGIC 
+// MAGIC
 // MAGIC SELECT _id, shreddedData, _validationMessage
 // MAGIC FROM default.ironclad
 // MAGIC WHERE !_isValid

@@ -1,14 +1,13 @@
 # Databricks notebook source
-# MAGIC %python
-# MAGIC 
-# MAGIC # not compatible or needed on a passthrough AD cluster!
-# MAGIC from fathom.ConnectStorage import connect_storage
-# MAGIC from fathom import Configuration as config
-# MAGIC 
-# MAGIC connect_storage()
-# MAGIC config.help()
-# MAGIC 
-# MAGIC root = config.get_storage_account()
+
+# not compatible or needed on a passthrough AD cluster!
+from fathom.ConnectStorage import connect_storage
+from fathom import Configuration as config
+
+connect_storage()
+config.help()
+
+root = config.get_storage_account()
 
 # COMMAND ----------
 
