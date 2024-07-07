@@ -2,102 +2,81 @@
 # MAGIC %sql
 # MAGIC
 # MAGIC select * from values
-# MAGIC ('England & Wales','2023-01-02', 'New Year’s Day (substitute day)'),
-# MAGIC ('England & Wales','2023-04-07', 'Good Friday'),
-# MAGIC ('England & Wales','2023-04-10', 'Easter Monday'),
-# MAGIC ('England & Wales','2023-05-01', 'Early May bank holiday'),
-# MAGIC ('England & Wales','2023-05-08', 'Bank holiday for the coronation of King Charles III'),
-# MAGIC ('England & Wales','2023-05-29', 'Spring bank holiday'),
-# MAGIC ('England & Wales','2023-08-28', 'Summer bank holiday'),
-# MAGIC ('England & Wales','2023-12-25', 'Christmas Day'),
-# MAGIC ('England & Wales','2023-12-26', 'Boxing Day'),
-# MAGIC ('England & Wales','2024-01-01', 'New Year’s Day'),
-# MAGIC ('England & Wales','2024-03-29', 'Good Friday'),
-# MAGIC ('England & Wales','2024-04-01', 'Easter Monday'),
-# MAGIC ('England & Wales','2024-05-06', 'Early May bank holiday'),
-# MAGIC ('England & Wales','2024-05-27', 'Spring bank holiday'),
-# MAGIC ('England & Wales','2024-08-26', 'Summer bank holiday'),
-# MAGIC ('England & Wales','2024-12-25', 'Christmas Day'),
-# MAGIC ('England & Wales','2024-12-26', 'Boxing Day'),
-# MAGIC ('England & Wales','2025-01-01', 'New Year’s Day'),
-# MAGIC ('England & Wales','2025-04-18', 'Good Friday'),
-# MAGIC ('England & Wales','2025-04-21', 'Easter Monday'),
-# MAGIC ('England & Wales','2025-05-05', 'Early May bank holiday'),
-# MAGIC ('England & Wales','2025-05-26', 'Spring bank holiday'),
-# MAGIC ('England & Wales','2025-08-25', 'Summer bank holiday'),
-# MAGIC ('England & Wales','2025-12-25', 'Christmas Day'),
-# MAGIC ('England & Wales','2025-12-26', 'Boxing Day'),
-# MAGIC ('England & Wales','2026-01-01', 'New Year’s Day'),
-# MAGIC ('England & Wales','2026-04-03', 'Good Friday'),
-# MAGIC ('England & Wales','2026-04-06', 'Easter Monday'),
-# MAGIC ('England & Wales','2026-05-04', 'Early May bank holiday'),
-# MAGIC ('England & Wales','2026-05-25', 'Spring bank holiday'),
-# MAGIC ('England & Wales','2026-08-31', 'Summer bank holiday'),
-# MAGIC ('England & Wales','2026-12-25', 'Christmas Day'),
-# MAGIC ('England & Wales','2026-12-26', 'Boxing Day')
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC -- Past bank holidays in England and Wales 2022 Date 	Day of the week 	Bank holiday
-# MAGIC -- 27 December 	Tuesday 	Christmas Day (substitute day)
-# MAGIC -- 26 December 	Monday 	Boxing Day
-# MAGIC -- 19 September 	Monday 	Bank Holiday for the State Funeral of Queen Elizabeth II
-# MAGIC -- 29 August 	Monday 	Summer bank holiday
-# MAGIC -- 3 June 	Friday 	Platinum Jubilee bank holiday
-# MAGIC -- 2 June 	Thursday 	Spring bank holiday
-# MAGIC -- 2 May 	Monday 	Early May bank holiday
-# MAGIC -- 18 April 	Monday 	Easter Monday
-# MAGIC -- 15 April 	Friday 	Good Friday
-# MAGIC -- 3 January 	Monday 	New Year’s Day (substitute day)
-# MAGIC
-# MAGIC
-# MAGIC -- Past bank holidays in England and Wales 2021 Date 	Day of the week 	Bank holiday
-# MAGIC -- 28 December 	Tuesday 	Boxing Day (substitute day)
-# MAGIC -- 27 December 	Monday 	Christmas Day (substitute day)
-# MAGIC -- 30 August 	Monday 	Summer bank holiday
-# MAGIC -- 31 May 	Monday 	Spring bank holiday
-# MAGIC -- 3 May 	Monday 	Early May bank holiday
-# MAGIC -- 5 April 	Monday 	Easter Monday
-# MAGIC -- 2 April 	Friday 	Good Friday
-# MAGIC -- 1 January 	Friday 	New Year’s Day
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC -- Past bank holidays in England and Wales 2020 Date 	Day of the week 	Bank holiday
-# MAGIC -- 28 December 	Monday 	Boxing Day (substitute day)
-# MAGIC -- 25 December 	Friday 	Christmas Day
-# MAGIC -- 31 August 	Monday 	Summer bank holiday
-# MAGIC -- 25 May 	Monday 	Spring bank holiday
-# MAGIC -- 8 May 	Friday 	Early May bank holiday (VE day)
-# MAGIC -- 13 April 	Monday 	Easter Monday
-# MAGIC -- 10 April 	Friday 	Good Friday
-# MAGIC -- 1 January 	Wednesday 	New Year’s Day
-# MAGIC
-# MAGIC
-# MAGIC -- Past bank holidays in England and Wales 2019 Date 	Day of the week 	Bank holiday
-# MAGIC -- 26 December 	Thursday 	Boxing Day
-# MAGIC -- 25 December 	Wednesday 	Christmas Day
-# MAGIC -- 26 August 	Monday 	Summer bank holiday
-# MAGIC -- 27 May 	Monday 	Spring bank holiday
-# MAGIC -- 6 May 	Monday 	Early May bank holiday
-# MAGIC -- 22 April 	Monday 	Easter Monday
-# MAGIC -- 19 April 	Friday 	Good Friday
-# MAGIC -- 1 January 	Tuesday 	New Year’s Day
-# MAGIC
-# MAGIC
-# MAGIC
-# MAGIC -- Past bank holidays in England and Wales 2018 Date 	Day of the week 	Bank holiday
-# MAGIC -- 26 December 	Wednesday 	Boxing Day
-# MAGIC -- 25 December 	Tuesday 	Christmas Day
-# MAGIC -- 27 August 	Monday 	Summer bank holiday
-# MAGIC -- 28 May 	Monday 	Spring bank holiday
-# MAGIC -- 7 May 	Monday 	Early May bank holiday
-# MAGIC -- 2 April 	Monday 	Easter Monday
-# MAGIC -- 30 March 	Friday 	Good Friday
-# MAGIC -- 1 January 	Monday 	New Year’s Day
+# MAGIC ('England & Wales', '2023-01-02', 'New Year’s Day (substitute day)'                         ),
+# MAGIC ('England & Wales', '2023-04-07', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2023-04-10', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2023-05-01', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2023-05-08', 'Bank holiday for the coronation of King Charles III'     ),
+# MAGIC ('England & Wales', '2023-05-29', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2023-08-28', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2023-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2023-12-26', 'Boxing Day'                                              ),
+# MAGIC ('England & Wales', '2024-01-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2024-03-29', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2024-04-01', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2024-05-06', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2024-05-27', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2024-08-26', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2024-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2024-12-26', 'Boxing Day'                                              ),
+# MAGIC ('England & Wales', '2025-01-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2025-04-18', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2025-04-21', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2025-05-05', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2025-05-26', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2025-08-25', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2025-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2025-12-26', 'Boxing Day'                                              ),
+# MAGIC ('England & Wales', '2026-01-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2026-04-03', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2026-04-06', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2026-05-04', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2026-05-25', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2026-08-31', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2026-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2026-12-26', 'Boxing Day'                                              ),
+# MAGIC ('England & Wales', '2022-01-03', 'New Year’s Day (substitute day)'                         ),
+# MAGIC ('England & Wales', '2022-04-15', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2022-04-18', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2022-05-02', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2022-06-02', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2022-06-03', 'Platinum Jubilee bank holiday'                           ),
+# MAGIC ('England & Wales', '2022-08-29', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2022-09-19', 'Bank Holiday for the State Funeral of Queen Elizabeth II'),
+# MAGIC ('England & Wales', '2022-12-26', 'Boxing Day'                                              ),
+# MAGIC ('England & Wales', '2022-12-27', 'Christmas Day (substitute day)'                          ),
+# MAGIC ('England & Wales', '2021-01-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2021-04-02', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2021-04-05', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2021-05-03', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2021-05-31', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2021-08-30', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2021-12-27', 'Christmas Day (substitute day)'                          ),
+# MAGIC ('England & Wales', '2021-12-28', 'Boxing Day (substitute day)'                             ),
+# MAGIC ('England & Wales', '2020-04-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2020-04-10', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2020-04-13', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2020-05-08', 'Early May bank holiday (VE day)'                         ),
+# MAGIC ('England & Wales', '2020-05-25', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2020-08-31', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2020-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2020-12-28', 'Boxing Day (substitute day)'                             ),
+# MAGIC ('England & Wales', '2019-01-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2019-04-19', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2019-04-22', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2019-05-06', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2019-05-27', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2019-08-26', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2019-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2019-12-26', 'Boxing Day'                                              ),
+# MAGIC ('England & Wales', '2018-01-01', 'New Year’s Day'                                          ),
+# MAGIC ('England & Wales', '2018-03-30', 'Good Friday'                                             ),
+# MAGIC ('England & Wales', '2018-04-02', 'Easter Monday'                                           ),
+# MAGIC ('England & Wales', '2018-05-07', 'Early May bank holiday'                                  ),
+# MAGIC ('England & Wales', '2018-05-28', 'Spring bank holiday'                                     ),
+# MAGIC ('England & Wales', '2018-08-27', 'Summer bank holiday'                                     ),
+# MAGIC ('England & Wales', '2018-12-25', 'Christmas Day'                                           ),
+# MAGIC ('England & Wales', '2018-12-26', 'Boxing Day'                                              )
 
 # COMMAND ----------
 
@@ -109,39 +88,81 @@
 # MAGIC (
 # MAGIC   select col1 as string, cast(col2 as date) as date_key, cast(col3 as string) bank_holiday
 # MAGIC   from values
-# MAGIC   ('England & Wales','2023-01-02', 'New Year’s Day (substitute day)'),
-# MAGIC   ('England & Wales','2023-04-07', 'Good Friday'),
-# MAGIC   ('England & Wales','2023-04-10', 'Easter Monday'),
-# MAGIC   ('England & Wales','2023-05-01', 'Early May bank holiday'),
-# MAGIC   ('England & Wales','2023-05-08', 'Bank holiday for the coronation of King Charles III'),
-# MAGIC   ('England & Wales','2023-05-29', 'Spring bank holiday'),
-# MAGIC   ('England & Wales','2023-08-28', 'Summer bank holiday'),
-# MAGIC   ('England & Wales','2023-12-25', 'Christmas Day'),
-# MAGIC   ('England & Wales','2023-12-26', 'Boxing Day'),
-# MAGIC   ('England & Wales','2024-01-01', 'New Year’s Day'),
-# MAGIC   ('England & Wales','2024-03-29', 'Good Friday'),
-# MAGIC   ('England & Wales','2024-04-01', 'Easter Monday'),
-# MAGIC   ('England & Wales','2024-05-06', 'Early May bank holiday'),
-# MAGIC   ('England & Wales','2024-05-27', 'Spring bank holiday'),
-# MAGIC   ('England & Wales','2024-08-26', 'Summer bank holiday'),
-# MAGIC   ('England & Wales','2024-12-25', 'Christmas Day'),
-# MAGIC   ('England & Wales','2024-12-26', 'Boxing Day'),
-# MAGIC   ('England & Wales','2025-01-01', 'New Year’s Day'),
-# MAGIC   ('England & Wales','2025-04-18', 'Good Friday'),
-# MAGIC   ('England & Wales','2025-04-21', 'Easter Monday'),
-# MAGIC   ('England & Wales','2025-05-05', 'Early May bank holiday'),
-# MAGIC   ('England & Wales','2025-05-26', 'Spring bank holiday'),
-# MAGIC   ('England & Wales','2025-08-25', 'Summer bank holiday'),
-# MAGIC   ('England & Wales','2025-12-25', 'Christmas Day'),
-# MAGIC   ('England & Wales','2025-12-26', 'Boxing Day'),
-# MAGIC   ('England & Wales','2026-01-01', 'New Year’s Day'),
-# MAGIC   ('England & Wales','2026-04-03', 'Good Friday'),
-# MAGIC   ('England & Wales','2026-04-06', 'Easter Monday'),
-# MAGIC   ('England & Wales','2026-05-04', 'Early May bank holiday'),
-# MAGIC   ('England & Wales','2026-05-25', 'Spring bank holiday'),
-# MAGIC   ('England & Wales','2026-08-31', 'Summer bank holiday'),
-# MAGIC   ('England & Wales','2026-12-25', 'Christmas Day'),
-# MAGIC   ('England & Wales','2026-12-26', 'Boxing Day')
+# MAGIC   ('England & Wales', '2023-01-02', 'New Year’s Day (substitute day)'                         ),
+# MAGIC   ('England & Wales', '2023-04-07', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2023-04-10', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2023-05-01', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2023-05-08', 'Bank holiday for the coronation of King Charles III'     ),
+# MAGIC   ('England & Wales', '2023-05-29', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2023-08-28', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2023-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2023-12-26', 'Boxing Day'                                              ),
+# MAGIC   ('England & Wales', '2024-01-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2024-03-29', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2024-04-01', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2024-05-06', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2024-05-27', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2024-08-26', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2024-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2024-12-26', 'Boxing Day'                                              ),
+# MAGIC   ('England & Wales', '2025-01-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2025-04-18', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2025-04-21', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2025-05-05', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2025-05-26', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2025-08-25', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2025-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2025-12-26', 'Boxing Day'                                              ),
+# MAGIC   ('England & Wales', '2026-01-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2026-04-03', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2026-04-06', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2026-05-04', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2026-05-25', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2026-08-31', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2026-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2026-12-26', 'Boxing Day'                                              ),
+# MAGIC   ('England & Wales', '2022-01-03', 'New Year’s Day (substitute day)'                         ),
+# MAGIC   ('England & Wales', '2022-04-15', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2022-04-18', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2022-05-02', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2022-06-02', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2022-06-03', 'Platinum Jubilee bank holiday'                           ),
+# MAGIC   ('England & Wales', '2022-08-29', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2022-09-19', 'Bank Holiday for the State Funeral of Queen Elizabeth II'),
+# MAGIC   ('England & Wales', '2022-12-26', 'Boxing Day'                                              ),
+# MAGIC   ('England & Wales', '2022-12-27', 'Christmas Day (substitute day)'                          ),
+# MAGIC   ('England & Wales', '2021-01-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2021-04-02', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2021-04-05', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2021-05-03', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2021-05-31', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2021-08-30', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2021-12-27', 'Christmas Day (substitute day)'                          ),
+# MAGIC   ('England & Wales', '2021-12-28', 'Boxing Day (substitute day)'                             ),
+# MAGIC   ('England & Wales', '2020-04-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2020-04-10', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2020-04-13', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2020-05-08', 'Early May bank holiday (VE day)'                         ),
+# MAGIC   ('England & Wales', '2020-05-25', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2020-08-31', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2020-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2020-12-28', 'Boxing Day (substitute day)'                             ),
+# MAGIC   ('England & Wales', '2019-01-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2019-04-19', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2019-04-22', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2019-05-06', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2019-05-27', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2019-08-26', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2019-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2019-12-26', 'Boxing Day'                                              ),
+# MAGIC   ('England & Wales', '2018-01-01', 'New Year’s Day'                                          ),
+# MAGIC   ('England & Wales', '2018-03-30', 'Good Friday'                                             ),
+# MAGIC   ('England & Wales', '2018-04-02', 'Easter Monday'                                           ),
+# MAGIC   ('England & Wales', '2018-05-07', 'Early May bank holiday'                                  ),
+# MAGIC   ('England & Wales', '2018-05-28', 'Spring bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2018-08-27', 'Summer bank holiday'                                     ),
+# MAGIC   ('England & Wales', '2018-12-25', 'Christmas Day'                                           ),
+# MAGIC   ('England & Wales', '2018-12-26', 'Boxing Day'                                              )
 # MAGIC ),
 # MAGIC cte_calendar as 
 # MAGIC (
