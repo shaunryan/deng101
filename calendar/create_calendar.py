@@ -166,49 +166,48 @@
 # MAGIC (
 # MAGIC   select
 # MAGIC     c.date_key,
-# MAGIC     c.date_key as date,
-# MAGIC     date_format(c.date_key, 'MM-dd') as month_day,
-# MAGIC     date_format(c.date_key, 'D') as day_of_month,
-# MAGIC     date_format(c.date_key, 'MMM-E') as month_day_name_short,
-# MAGIC     date_format(c.date_key, 'MMMM-E') as month_day_name,
-# MAGIC     date_format(c.date_key, 'yyyy-D') as year_day,
-# MAGIC     date_format(c.date_key, 'D') as day_of_year,
-# MAGIC     date_format(c.date_key, 'yyyy-E') as year_day_name,
-# MAGIC     date_format(c.date_key, 'E') as day_name_short,
-# MAGIC     date_format(c.date_key, 'EEEE') as day_name,
+# MAGIC     c.date_key                                       as date,
+# MAGIC     date_format(c.date_key, 'MM-dd')                 as month_day,
+# MAGIC     date_format(c.date_key, 'D')                     as day_of_month,
+# MAGIC     date_format(c.date_key, 'MMM-E')                 as month_day_name_short,
+# MAGIC     date_format(c.date_key, 'MMMM-E')                as month_day_name,
+# MAGIC     date_format(c.date_key, 'yyyy-D')                as year_day,
+# MAGIC     date_format(c.date_key, 'D')                     as day_of_year,
+# MAGIC     date_format(c.date_key, 'yyyy-E')                as year_day_name,
+# MAGIC     date_format(c.date_key, 'E')                     as day_name_short,
+# MAGIC     date_format(c.date_key, 'EEEE')                  as day_name,
 # MAGIC     -- month
-# MAGIC     cast(date_format(c.date_key, 'yyyyMM') as int) as month_key,
-# MAGIC     date_format(c.date_key, 'yyyy-MM') as year_month,
-# MAGIC     date_format(c.date_key, 'M') as month_of_year,
-# MAGIC     date_format(c.date_key, 'yyyy-MMM') as year_month_name,
-# MAGIC     date_format(c.date_key, 'MMM') as month_name_short,
-# MAGIC     date_format(c.date_key, 'MMMM') as month_name,
+# MAGIC     cast(date_format(c.date_key, 'yyyyMM') as int)   as month_key,
+# MAGIC     date_format(c.date_key, 'yyyy-MM')               as year_month,
+# MAGIC     date_format(c.date_key, 'M')                     as month_of_year,
+# MAGIC     date_format(c.date_key, 'yyyy-MMM')              as year_month_name,
+# MAGIC     date_format(c.date_key, 'MMM')                   as month_name_short,
+# MAGIC     date_format(c.date_key, 'MMMM')                  as month_name,
 # MAGIC     -- quarter  
-# MAGIC     cast(date_format(c.date_key, 'yyyyQQ') as int) as quarter_key,
-# MAGIC     date_format(c.date_key, 'yyyy-QQ') as year_quarter,
-# MAGIC     date_format(c.date_key, 'Q') as quarter_of_year,
-# MAGIC     date_format(c.date_key, 'yyyy-QQQ') as year_quarter_name,
-# MAGIC     date_format(c.date_key, 'QQQ') as quarter_name_short,
-# MAGIC     date_format(c.date_key, 'QQQQ') as quarter_name,
+# MAGIC     cast(date_format(c.date_key, 'yyyyQQ') as int)   as quarter_key,
+# MAGIC     date_format(c.date_key, 'yyyy-QQ')               as year_quarter,
+# MAGIC     date_format(c.date_key, 'Q')                     as quarter_of_year,
+# MAGIC     date_format(c.date_key, 'yyyy-QQQ')              as year_quarter_name,
+# MAGIC     date_format(c.date_key, 'QQQ')                   as quarter_name_short,
+# MAGIC     date_format(c.date_key, 'QQQQ')                  as quarter_name,
 # MAGIC     -- half  
-# MAGIC     cast(concat(date_format(c.date_key, 'yyyy'), c.half_year) as int) as half_key,
-# MAGIC     concat(date_format(c.date_key, 'yyyy'), '-0', c.half_year) as year_half,
+# MAGIC     cast(concat(
+# MAGIC       date_format(c.date_key, 'yyyy'), 
+# MAGIC       c.half_year) as int)                           as half_key,
+# MAGIC     concat(
+# MAGIC       date_format(c.date_key, 'yyyy'), 
+# MAGIC       '-0', c.half_year)                             as year_half,
 # MAGIC     c.half_year,
-# MAGIC     concat(date_format(c.date_key, 'yyyy'), '-', c.half_year_name_short) as year_half_name,
+# MAGIC     concat(date_format(c.date_key, 'yyyy'),
+# MAGIC       '-', c.half_year_name_short)                   as year_half_name,
 # MAGIC     c.half_year_name_short,
 # MAGIC     c.half_year_name,
 # MAGIC     -- year  
-# MAGIC     cast(date_format(c.date_key, 'yyyy') as int) as `year`,
+# MAGIC     cast(date_format(c.date_key, 'yyyy') as int)     as `year`,
 # MAGIC     -- flags
-# MAGIC     b.date_key is not null as is_bank_holiday,
-# MAGIC     (b.date_key is null and !date_format(c.date_key, 'E') in ('Sat', 'Sun')) as is_working_day
-# MAGIC     
-# MAGIC     -- todo
-# MAGIC     -- !date_format(c.date_key, 'E') in ('Sat', 'Sun') as is_last_day_of_month, --todo
-# MAGIC     -- !date_format(c.date_key, 'E') in ('Sat', 'Sun') as is_last_working_day_of_month, --todo
-# MAGIC     -- !date_format(c.date_key, 'E') in ('Sat', 'Sun') as is_last_day_of_quarter, --todo
-# MAGIC     -- !date_format(c.date_key, 'E') in ('Sat', 'Sun') as is_last_working_day_of_quarter --todo
-# MAGIC
+# MAGIC     b.date_key is not null                           as is_bank_holiday,
+# MAGIC     (b.date_key is null and 
+# MAGIC     !date_format(c.date_key, 'E') in ('Sat', 'Sun')) as is_working_day
 # MAGIC   from cte_calendar c
 # MAGIC   left join cte_bankhols b on c.date_key = b.date_key
 # MAGIC )
@@ -269,11 +268,15 @@
 # MAGIC     -- flags
 # MAGIC     `is_bank_holiday`,
 # MAGIC     `is_working_day`,
-# MAGIC     (`working_day_of_year`=1 and `working_day_of_year` is not null) as `is_1st_working_day_of_year`,
-# MAGIC     (`working_day_of_month`=1 and `working_day_of_month` is not null) as `is_1st_working_day_of_month`,
-# MAGIC     (`working_day_of_quarter`=1 and `working_day_of_quarter` is not null) as `is_1st_working_day_of_quarter`,
-# MAGIC     last_day(`date_key`) == `date_key` as `is_last_day_of_month`,
-# MAGIC     last_day(`date_key`) == `date_key` and month(`date_key`) in (3,6,9,12) as `is_last_day_of_quarter`
+# MAGIC     (`working_day_of_year`=1 and 
+# MAGIC     `working_day_of_year` is not null)    as `is_1st_working_day_of_year`,
+# MAGIC     (`working_day_of_month`=1 and 
+# MAGIC     `working_day_of_month` is not null)   as `is_1st_working_day_of_month`,
+# MAGIC     (`working_day_of_quarter`=1 and 
+# MAGIC     `working_day_of_quarter` is not null) as `is_1st_working_day_of_quarter`,
+# MAGIC     last_day(`date_key`) == `date_key`    as `is_last_day_of_month`,
+# MAGIC     last_day(`date_key`) == `date_key` 
+# MAGIC     and month(`date_key`) in (3,6,9,12)   as `is_last_day_of_quarter`
 # MAGIC from cte_working_calendar
 # MAGIC where date_key <= cast(concat(year(now()), '-12-31') as date)
 # MAGIC
