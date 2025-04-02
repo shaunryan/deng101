@@ -189,7 +189,7 @@
 # MAGIC     c.date_key,
 # MAGIC     c.date_key                                       as date,
 # MAGIC     date_format(c.date_key, 'MM-dd')                 as month_day,
-# MAGIC     date_format(c.date_key, 'D')                     as day_of_month,
+# MAGIC     cast(date_format(c.date_key, 'D') as int)        as day_of_month,
 # MAGIC     date_format(c.date_key, 'MMM-E')                 as month_day_name_short,
 # MAGIC     date_format(c.date_key, 'MMMM-E')                as month_day_name,
 # MAGIC     date_format(c.date_key, 'yyyy-D')                as year_day,
